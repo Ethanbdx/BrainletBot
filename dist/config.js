@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = {
-    "token": "NTgwMjg1OTI4NjMxOTU5NTUy.XOTOWA.ylQ691o_4hAPytIBqqpQdxiUhi4",
+    "token": "Token",
     "prefix": ".",
     "commands": [
         "help", "weebrate", "gayrate", "dankrate", "commands", "addsound", "playsound", "delsound", "listsounds"
