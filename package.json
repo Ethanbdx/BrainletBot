@@ -1,0 +1,22 @@
+{
+  "name": "brainletbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "brainlet.js",
+  "dependencies": {
+    "@types/node": "^12.0.2",
+    "discord.js": "^11.5.0",
+    "ffmpeg": "0.0.4",
+    "ffmpeg-binaries": "^4.0.0",
+    "opusscript": "0.0.6",
+    "sequelize": "^5.8.6",
+    "sqlite3": "^4.0.8",
+    "ytdl-core": "^0.29.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
