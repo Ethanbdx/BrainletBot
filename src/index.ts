@@ -14,10 +14,27 @@ bot.on("ready", () => {
     console.log("Brainlet is alive.")
 })
 
+//Sending a message to new members
+bot.on("guildMemberAdd", mem => {
+
+    if(mem.guild.id != "410502258170789889") return;
+    mem.send("Welcome to the EauxP Discord, in order to gain full access to our server please contact a Moderator or Admin. Thanks!");
+
+})
+//Sending a message on members leaving/being kicked.
+bot.on("guildMemberRemove", mem => {
+    
+    const botChannel = mem.guild.channels.get('510333364339998720');
+    if (!botChannel) return;
+    if(!((botChannel): botChannel is Discord.TextChannel => botChannel.type === "text")(botChannel)) return;
+    botChannel.send(`${mem} has left the server.`)
+    
+})
 
 //Message listener for commands
 bot.on("message", msg => {
 
+    if(msg.channel.id != "")
     if(msg.author.bot) { return; }
     
     if(!msg.content.startsWith(ConfigFile.config.prefix)) { return; }
