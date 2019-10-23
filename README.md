@@ -1,7 +1,10 @@
 # BrainletBot
 A discord bot that has a soundboard and other miscelleanous commands.
 
-Current Available Commands:
+# Technologies Used
+- TypeScript
+- Discord.js
+# Current Available Commands
 <ul>
   <li>.commands - Lists all available commands.</li>
   <li>.help [command] - Explains what a given command does.</li>
