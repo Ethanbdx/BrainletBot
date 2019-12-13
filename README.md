@@ -18,4 +18,4 @@ A discord bot that has a soundboard and other miscelleanous commands.
 </ul>
 
 # Brainlet in Action
-![Example of Brainlet being used on Discord server] (https://i.imgur.com/mgOfmln.png "Brainlet Example")
+![Example of Brainlet being used on Discord server](https://i.imgur.com/mgOfmln.png "Brainlet Example")
