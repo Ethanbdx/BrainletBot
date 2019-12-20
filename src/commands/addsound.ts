@@ -40,10 +40,21 @@ export default class addsound implements IBotCommand{
            msgObject.reply("You can't add a playlist!")
        }
        ytdl.getInfo(soundUrl, async (err, info) => {
+           try {
            if(info.length_seconds > 60){
                msgObject.reply("You can't add sounds longer than 1 minute!")
                return;
            }
+        } catch (e) {
+            console.log(e)
+            if(e.name === 'UnhandledPromiseRejectionWarning') {
+                msgObject.reply("I am unable to read the length of this video >:(")
+                return;
+            } else {
+                msgObject.reply("I don't know what...but something went wrong")
+                return;
+            }
+        }
            try{
                const sound = await Sounds.create({
                    Name: soundName,
