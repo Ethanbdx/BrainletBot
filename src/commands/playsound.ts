@@ -37,6 +37,10 @@ export default class playsound implements IBotCommand{
             msgObject.reply("You need to be in a voice channel to use this command.")
             return;
         }
+        if(client.voiceConnections.size != 0) {
+            msgObject.reply("I'm not done yet!")
+            return;
+        }
         const sound = await Sounds.findOne({
             where: {
                 Name: soundName,
