@@ -1,0 +1,7 @@
+pipline {
+    stages {
+        stage('Deploy')
+        sh 'cd dist'
+        sh 'node .'
+    }
+}
