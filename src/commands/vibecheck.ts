@@ -19,7 +19,7 @@ export default class vibecheck implements IBotCommand {
         const vibe = Math.floor(Math.random() * 100);
         const voiceChannel = msgObject.member.voiceChannel;
         if (vibe > 80) {
-            if(voiceChannel && voiceChannel.joinable && client.voiceConnections.size == 0) {
+            if (voiceChannel && voiceChannel.joinable && client.voiceConnections.size == 0) {
                 voiceChannel.join().then(async connection => {
                     const dispatcher = connection.playOpusStream(await ytdl("https://www.youtube.com/watch?v=F0D1xwn0Kyc"));
 
@@ -32,26 +32,25 @@ export default class vibecheck implements IBotCommand {
                         voiceChannel.leave();
                     })
                 })
-            } else {
-                msgObject.channel.send({
-                    embed: {
-                        author: {
-                            name: client.user.username,
-                            icon_url: client.user.avatarURL
-                        },
-                        title: 'Brainlet approves of your vibes.',
-                        thumbnail: {
-                            url: msgObject.author.avatarURL
-                        },
-                        description: `${msgObject.member.user.username} vibes have been analyzed: ${vibe}% PASS :white_check_mark:`,
-                        color: 0x71A324,
-                        timestamp: new Date(),
-                        footer: {
-                             icon_url: client.user.avatarURL
-                        }
-                    }
-                })
             }
+            msgObject.channel.send({
+                embed: {
+                    author: {
+                        name: client.user.username,
+                        icon_url: client.user.avatarURL
+                    },
+                    title: 'Brainlet approves of your vibes.',
+                    thumbnail: {
+                        url: msgObject.author.avatarURL
+                    },
+                    description: `${msgObject.member.user.username} vibes have been analyzed: ${vibe}% PASS :white_check_mark:`,
+                    color: 0x71A324,
+                    timestamp: new Date(),
+                    footer: {
+                        icon_url: client.user.avatarURL
+                    }
+                }
+            })
         }
         else if (vibe > 50) {
             msgObject.channel.send({
@@ -68,9 +67,9 @@ export default class vibecheck implements IBotCommand {
                     color: 0x71A324,
                     timestamp: new Date(),
                     footer: {
-                         icon_url: client.user.avatarURL
+                        icon_url: client.user.avatarURL
                     }
-     
+
                 }
             })
         }
@@ -89,14 +88,14 @@ export default class vibecheck implements IBotCommand {
                     color: 0xA32432,
                     timestamp: new Date(),
                     footer: {
-                         icon_url: client.user.avatarURL
+                        icon_url: client.user.avatarURL
                     }
-     
+
                 }
             })
         }
         else {
-            if(voiceChannel && voiceChannel.joinable && client.voiceConnections.size == 0) {
+            if (voiceChannel && voiceChannel.joinable && client.voiceConnections.size == 0) {
                 voiceChannel.join().then(async connection => {
                     const dispatcher = connection.playOpusStream(await ytdl("https://www.youtube.com/watch?v=QKfkMqqNwWg"));
 
@@ -109,26 +108,26 @@ export default class vibecheck implements IBotCommand {
                         voiceChannel.leave();
                     })
                 })
-            } else {
-                msgObject.channel.send({
-                    embed: {
-                        author: {
-                            name: client.user.username,
-                            icon_url: client.user.avatarURL
-                        },
-                        title: 'Brainlet disapproves of your vibes.',
-                        thumbnail: {
-                            url: msgObject.author.avatarURL
-                        },
-                        description: `${msgObject.member.user.username} vibes have been analyzed: ${vibe}% FAIL :x:`,
-                        color: 0xA32432,
-                        timestamp: new Date(),
-                        footer: {
-                             icon_url: client.user.avatarURL
-                        }
-                    }
-                })
             }
+            msgObject.channel.send({
+                embed: {
+                    author: {
+                        name: client.user.username,
+                        icon_url: client.user.avatarURL
+                    },
+                    title: 'Brainlet disapproves of your vibes.',
+                    thumbnail: {
+                        url: msgObject.author.avatarURL
+                    },
+                    description: `${msgObject.member.user.username} vibes have been analyzed: ${vibe}% FAIL :x:`,
+                    color: 0xA32432,
+                    timestamp: new Date(),
+                    footer: {
+                        icon_url: client.user.avatarURL
+                    }
+                }
+            })
+
         }
 
     }
