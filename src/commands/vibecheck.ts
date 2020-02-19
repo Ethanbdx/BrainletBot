@@ -18,7 +18,7 @@ export default class vibecheck implements IBotCommand {
     runCommand(args: string[], msgObject: Discord.Message, client: Discord.Client): void {
         const vibe = Math.floor(Math.random() * 100);
         const voiceChannel = msgObject.member.voiceChannel;
-        if (vibe > 80) {
+        if (vibe > 85) {
             if (voiceChannel && voiceChannel.joinable && client.voiceConnections.size == 0) {
                 voiceChannel.join().then(async connection => {
                     const dispatcher = connection.playOpusStream(await ytdl("https://www.youtube.com/watch?v=F0D1xwn0Kyc"));

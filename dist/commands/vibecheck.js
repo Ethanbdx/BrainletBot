@@ -23,7 +23,7 @@ class vibecheck {
     runCommand(args, msgObject, client) {
         const vibe = Math.floor(Math.random() * 100);
         const voiceChannel = msgObject.member.voiceChannel;
-        if (vibe > 80) {
+        if (vibe > 85) {
             if (voiceChannel && voiceChannel.joinable && client.voiceConnections.size == 0) {
                 voiceChannel.join().then((connection) => __awaiter(this, void 0, void 0, function* () {
                     const dispatcher = connection.playOpusStream(yield ytdl("https://www.youtube.com/watch?v=F0D1xwn0Kyc"));
