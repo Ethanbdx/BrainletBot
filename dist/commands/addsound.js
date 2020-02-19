@@ -13,7 +13,7 @@ const ytdl = require('ytdl-core');
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: '../soundDB.db'
+    storage: '../brainletDB.db'
 });
 const Sounds = sequelize.define('Sounds', {
     Name: {
