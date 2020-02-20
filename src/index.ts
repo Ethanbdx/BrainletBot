@@ -5,6 +5,7 @@ import { IBotCommand } from "./api";
 const bot: Discord.Client = new Discord.Client();
 
 let commands: IBotCommand[] = []
+const vibeMap = new Map();
 
 loadCommands(`${__dirname}/commands`)
 
