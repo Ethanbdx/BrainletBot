@@ -2,7 +2,24 @@ import * as Discord from "discord.js"
 import { IBotCommand } from "../api"
 import { stringify } from "querystring";
 const ytdl = require('ytdl-core-discord');
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: '../brainletDB.db'
+});
 
+const Vibes = sequelize.define('Vibes', {
+    UserId: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false,
+        primaryKey: true
+    },
+    LastCheck: {
+        type: Sequelize.DATE,
+        allowNull: false
+    }
+})
 
 export default class vibecheck implements IBotCommand {
 
@@ -17,14 +34,19 @@ export default class vibecheck implements IBotCommand {
         return command == this._command
     }
 
-    runCommand(args: string[], msgObject: Discord.Message, client: Discord.Client): void {
+    async runCommand(args: string[], msgObject: Discord.Message, client: Discord.Client) {
+        const canCheck = await this.canVibeCheck(msgObject.author.id);
+        if(!canCheck) {
+            msgObject.reply("It hasn't even been 8 hours yet...");
+            return;
+        }
         const vibe = Math.floor(Math.random() * 100);
         const voiceChannel = msgObject.member.voiceChannel;
         const discordUser = msgObject.author.id;
         if (vibe > 85) {
             if (voiceChannel && voiceChannel.joinable && client.voiceConnections.size == 0) {
                 voiceChannel.join().then(async connection => {
-                    const dispatcher = connection.playOpusStream(await ytdl("https://www.youtube.com/watch?v=F0D1xwn0Kyc"));
+                    const dispatcher = connection.playOpusStream(await ytdl("https://www.youtube.com/watch?v=04hXxI8TArU"));
 
                     dispatcher.on('err', err => {
                         console.log(`Error playing vibe check passed, requested on ${Date.now()} by ${msgObject.author.username}`)
@@ -56,7 +78,7 @@ export default class vibecheck implements IBotCommand {
         else {
             if (voiceChannel && voiceChannel.joinable && client.voiceConnections.size == 0) {
                 voiceChannel.join().then(async connection => {
-                    const dispatcher = connection.playOpusStream(await ytdl("https://www.youtube.com/watch?v=QKfkMqqNwWg"));
+                    const dispatcher = connection.playOpusStream(await ytdl("https://www.youtube.com/watch?v=RxcHbiUfKlA"));
 
                     dispatcher.on('err', err => {
                         console.log(`Error playing vibe check failed, requested on ${Date.now()} by ${msgObject.author.username}`)
@@ -97,24 +119,36 @@ export default class vibecheck implements IBotCommand {
         })
     }
 
-    canVibeCheck(vibeMap: Map<string, Date>, discordUser: Discord.User): boolean {
-        //If user is not mapped.
-        if(!vibeMap.has(discordUser.id)) {
-           vibeMap.set(discordUser.id, new Date())
-           return true;
-        }
-
-        //Has 8 hours passed since last check?
-        const lastTimeChecked = vibeMap.get(discordUser.id)
-        const currentTime = new Date();
-        const hourDiff = Math.abs((currentTime.valueOf() - lastTimeChecked!.valueOf())/3.6e6)
-        if(hourDiff < 8) {
-            return false;
+    async canVibeCheck(discordUserId: string): Promise<boolean> {
+        
+       const vibe = await Vibes.findOne({
+            where: {
+                UserId: discordUserId
+            }
+        })
+    
+        if(vibe) {
+            const timeDiff = Math.abs(new Date().valueOf() - vibe.LastCheck.valueOf());
+            const hoursDiff = timeDiff / 36e5
+            console.log(hoursDiff);
+            if(hoursDiff < 8) {
+                return false
+            }
+            else {
+                Vibes.update({LastCheck: new Date()}, {
+                    where: {
+                        UserId: discordUserId
+                    }
+                });
+                return true;
+            }
         }
         else {
-            vibeMap.set(discordUser.id, new Date());
+            Vibes.create({
+                UserId: discordUserId,
+                LastCheck: new Date()
+            });
             return true;
         }
     }
-
 }
