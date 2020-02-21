@@ -35,9 +35,8 @@ export default class vibecheck implements IBotCommand {
     }
 
     async runCommand(args: string[], msgObject: Discord.Message, client: Discord.Client) {
-        const canCheck = await this.canVibeCheck(msgObject.author.id);
+        const canCheck = await this.canVibeCheck(msgObject);
         if(!canCheck) {
-            msgObject.reply("It hasn't even been 8 hours yet...");
             return;
         }
         const vibe = Math.floor(Math.random() * 100);
@@ -119,11 +118,11 @@ export default class vibecheck implements IBotCommand {
         })
     }
 
-    async canVibeCheck(discordUserId: string): Promise<boolean> {
+    async canVibeCheck(msgObject: Discord.Message): Promise<boolean> {
         
        const vibe = await Vibes.findOne({
             where: {
-                UserId: discordUserId
+                UserId: msgObject.author.id
             }
         })
     
@@ -132,12 +131,13 @@ export default class vibecheck implements IBotCommand {
             const hoursDiff = timeDiff / 36e5
             console.log(hoursDiff);
             if(hoursDiff < 8) {
+                msgObject.reply(`You still got ${(8 - hoursDiff).toFixed(2)} hour(s) left.`);
                 return false
             }
             else {
                 Vibes.update({LastCheck: new Date()}, {
                     where: {
-                        UserId: discordUserId
+                        UserId: msgObject.author.id
                     }
                 });
                 return true;
@@ -145,7 +145,7 @@ export default class vibecheck implements IBotCommand {
         }
         else {
             Vibes.create({
-                UserId: discordUserId,
+                UserId: msgObject.author.id,
                 LastCheck: new Date()
             });
             return true;
