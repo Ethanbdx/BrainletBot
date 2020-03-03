@@ -2,20 +2,15 @@
   "name": "brainletbot",
   "version": "1.0.0",
   "description": "",
-  "main": "brainlet.js",
+  "main": "index.js",
   "dependencies": {
-    "@types/node": "^12.0.2",
-    "discord.js": "^11.5.0",
+    "discord.js": "11.5.0",
     "ffmpeg": "0.0.4",
-    "ffmpeg-binaries": "^4.0.0",
     "opusscript": "0.0.6",
-    "sequelize": "^5.19.0",
-    "sqlite3": "^4.0.8",
-    "ytdl-core": "^1.0.3",
-    "ytdl-core-discord": "^1.1.0"
-  },
-  "devDependencies": {
-    "typescript": "^3.6.3"
+    "sequelize": "5.19.0",
+    "sqlite3": "4.1.1",
+    "ytdl-core": "1.0.3",
+    "ytdl-core-discord": "1.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

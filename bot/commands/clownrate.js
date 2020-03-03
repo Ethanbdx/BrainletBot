@@ -1,18 +1,15 @@
-import * as Discord from "discord.js"
-import { IBotCommand } from "../api"
-
-export default class clownrate implements IBotCommand {
-
-    private readonly _command = "clownrate";
-
-    help(): string {
+class clownrate {
+    constructor() {
+        this._command = "clownrate";
+    }
+    help() {
         return "Brainlet will determine how much of a clown you are.";
     }
-    isThisCommand(command: string): boolean {
+    isThisCommand(command) {
         return command === this._command;
     }
-    runCommand(args: string[], msgObject: Discord.Message, client: Discord.Client): void {
-        const randomNum = Math.floor(Math.random() * 100)
+    runCommand(args, msgObject, client) {
+        const randomNum = Math.floor(Math.random() * 100);
         if (randomNum > 80) {
             msgObject.channel.send({
                 embed: {
@@ -31,7 +28,7 @@ export default class clownrate implements IBotCommand {
                         icon_url: client.user.avatarURL
                     }
                 }
-            })
+            });
         }
         else {
             msgObject.channel.send({
@@ -51,7 +48,8 @@ export default class clownrate implements IBotCommand {
                         icon_url: client.user.avatarURL
                     }
                 }
-            })
+            });
         }
     }
 }
+exports.default = clownrate;
