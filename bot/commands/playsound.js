@@ -1,14 +1,3 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
 const ytdl = require('ytdl-core-discord');
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
@@ -33,10 +22,9 @@ class playsound {
     isThisCommand(command) {
         return command === this._command;
     }
-    runCommand(args, msgObject, client) {
-        return __awaiter(this, void 0, void 0, function* () {
+    async runCommand(args, msgObject, client) {
             const soundName = args;
-            const voiceChannel = msgObject.member.voiceChannel;
+            const voiceChannel = msgObject.member.voice.channel;
             if (!soundName) {
                 msgObject.reply("You need to enter a sound to play, using .playsound [soundname]");
                 return;
@@ -45,30 +33,29 @@ class playsound {
                 msgObject.reply("You need to be in a voice channel to use this command.");
                 return;
             }
-            if (client.voiceConnections.size != 0) {
+            if (client.voice.connections.size != 0) {
                 msgObject.reply("I'm not done yet!");
                 return;
             }
-            const sound = yield Sounds.findOne({
+            const sound = await Sounds.findOne({
                 where: {
                     Name: soundName,
                 }
             });
             if (sound) {
-                voiceChannel.join().then((connection) => __awaiter(this, void 0, void 0, function* () {
-                    const dispatcher = connection.playOpusStream(yield ytdl(sound.Url));
+                voiceChannel.join().then(async(connection) => {
+                    const dispatcher = connection.playOpusStream(await ytdl(sound.Url));
                     dispatcher.on('error', err => {
                         msgObject.reply(`Something went wrong while playing ${soundName}`);
                     });
                     dispatcher.on('end', end => {
                         voiceChannel.leave();
                     });
-                }));
+                });
                 msgObject.reply(`Now playing ${soundName}.`);
                 return;
             }
             msgObject.reply(`I couldn't find ${soundName} in my database, maybe you should add it or use .listsounds to see all the available sounds.`);
-        });
     }
 }
 exports.default = playsound;
