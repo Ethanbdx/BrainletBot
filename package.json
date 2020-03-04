@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "discord.js": "^12.0.0",
+    "mongoose": "^5.9.3",
     "node-opus": "^0.3.3",
     "sequelize": "5.19.0",
     "sqlite3": "^4.1.1",
