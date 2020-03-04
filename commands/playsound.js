@@ -1,17 +1,4 @@
 const ytdl = require('ytdl-core-discord');
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: './brainletDB.db'
-});
-const Sounds = sequelize.define('Sounds', {
-    Name: {
-        type: Sequelize.STRING,
-        unique: true,
-    },
-    Url: Sequelize.STRING,
-    CreatedBy: Sequelize.STRING
-});
 class playsound {
     constructor() {
         this._command = "playsound";

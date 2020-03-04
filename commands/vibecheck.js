@@ -1,19 +1,7 @@
 const ytdl = require('ytdl-core-discord');
 const mongoose = require('mongoose');
 const privateConfig = require('../private');
-const Sequelize = require('sequelize');
-const VibeSchema = new mongoose.Schema( {
-    UserId: {
-        type: String,
-        unique: true,
-        required: true,
-    },
-    LastCheck: {
-        type: Date,
-        required: true
-    }
-});
-const Vibes = mongoose.model("Vibe", VibeSchema);
+const Vibe = require("../models/Vibe");
 class vibecheck {
     constructor() {
         this._command = "vibecheck";
@@ -103,11 +91,10 @@ class vibecheck {
     }
     async canVibeCheck(msgObject) {
         mongoose.connect(privateConfig.private.mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
-        const db = mongoose.connection;
-        db.on('open', () => {
-            console.log("connection established")
-        })
-        const vibe = await Vibes.findOne({UserId: msgObject.author.id});
+        let vibe;
+        await Vibe.findOne({UserId: msgObject.author.id}, (err, res) => {
+            vibe = res;
+        });
         if (vibe) {
             const timeDiff = Math.abs(new Date().valueOf() - vibe.LastCheck.valueOf());
             const hoursDiff = timeDiff / 36e5;
@@ -117,15 +104,16 @@ class vibecheck {
                 return false;
             }
             else {
-                await Vibes.updateOne({ UserId: msgObject.author.id }, { LastCheck: new Date() });
+                await Vibe.updateOne({ UserId: msgObject.author.id }, { LastCheck: new Date() });
                 return true;
             }
         }
         else {
-            await Vibes.create({
+            const newVibe = Vibe({
                 UserId: msgObject.author.id,
                 LastCheck: new Date()
-            });
+            }).save();
+            
             return true;
         }
     };
