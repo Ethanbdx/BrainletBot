@@ -1,19 +1,7 @@
-'use strict';
-const {MessageEmbed} = require("discord.js");
-const ytdl = require('ytdl-core');
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: './brainletDB.db'
-});
-const Sounds = sequelize.define('Sounds', {
-    Name: {
-        type: Sequelize.STRING,
-        unique: true,
-    },
-    Url: Sequelize.STRING,
-    CreatedBy: Sequelize.STRING
-});
+const { MessageEmbed } = require("discord.js");
+const mongoose = require("mongoose");
+const privateConfig = require("../private")
+const Sound = require("../models/Sound")
 class listsounds {
     constructor() {
         this._command = "listsounds";
@@ -25,16 +13,19 @@ class listsounds {
         return command === this._command;
     }
     async runCommand(args, msgObject, client) {
-            const soundList = await Sounds.findAll({
-                attributes: ['Name'],
-            });
-            const soundString = soundList.map(s => s.Name).sort(() => Math.random() - 0.5).join(', ').slice(0, 2048) || 'There are no sounds currently set!';
+        mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+        const query = Sound.find();
+        query.select('Name');
+        await query.exec((err, sound) => {
+            //Making a comma seperated list of all the results.
+            const soundString = sound.map(sound => sound.Name).sort(() => Math.random() - 0.5).join(', ').slice(0, 2048)
             const embed = new MessageEmbed()
                 .setTitle('Available Sounds:')
                 .setDescription(`${soundString}`)
                 .setColor(0x2471a3)
                 .setFooter('To add sounds, type \'.addsound [sound name] [youtube url]\'');
-            return msgObject.reply("test",{embed});
+            return msgObject.reply("Here ya go!", { embed });
+        })
     }
 }
 exports.default = listsounds;

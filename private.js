@@ -1,4 +1,0 @@
-exports.private = {
-    "token": "",
-    "mongoDB": ""
-}

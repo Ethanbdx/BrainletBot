@@ -1,21 +1,7 @@
 const ytdl = require('ytdl-core-discord');
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: './brainletDB.db'
-});
-const Vibes = sequelize.define('Vibes', {
-    UserId: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false,
-        primaryKey: true
-    },
-    LastCheck: {
-        type: Sequelize.DATE,
-        allowNull: false
-    }
-});
+const mongoose = require('mongoose');
+const privateConfig = require('../private');
+const Vibe = require("../models/Vibe");
 class vibecheck {
     constructor() {
         this._command = "vibecheck";
@@ -104,10 +90,10 @@ class vibecheck {
         });
     }
     async canVibeCheck(msgObject) {
-        const vibe = await Vibes.findOne({
-            where: {
-                UserId: msgObject.author.id
-            }
+        mongoose.connect(privateConfig.private.mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+        let vibe;
+        await Vibe.findOne({UserId: msgObject.author.id}, (err, res) => {
+            vibe = res;
         });
         if (vibe) {
             const timeDiff = Math.abs(new Date().valueOf() - vibe.LastCheck.valueOf());
@@ -118,19 +104,16 @@ class vibecheck {
                 return false;
             }
             else {
-                await Vibes.update({ LastCheck: new Date() }, {
-                    where: {
-                        UserId: msgObject.author.id
-                    }
-                });
+                await Vibe.updateOne({ UserId: msgObject.author.id }, { LastCheck: new Date() });
                 return true;
             }
         }
         else {
-            await Vibes.create({
+            const newVibe = Vibe({
                 UserId: msgObject.author.id,
                 LastCheck: new Date()
-            });
+            }).save();
+            
             return true;
         }
     };
