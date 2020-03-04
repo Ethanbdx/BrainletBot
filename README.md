@@ -2,10 +2,10 @@
 A discord bot that has a soundboard and other miscelleanous commands.
 
 # Technologies Used
-- TypeScript/JavaSCript
+- JavaScript
 - Node.js
 - Discord.js
-- SQL Lite
+- MongoDB Atlas
 - AWS EC2
 # Current Available Commands
 <ul>
