@@ -1,5 +1,6 @@
-//TODO - MongoDB Integration
-
+const mongoose = require("mongoose");
+const privateConfig = require("../private");
+const Sound = require("../models/Sound");
 class delsound {
     constructor() {
         this._command = "delsound";
@@ -10,23 +11,22 @@ class delsound {
     isThisCommand(command) {
         return command === this._command;
     }
-    runCommand(args, msgObject, client) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const soundName = args;
-            if (!soundName) {
-                msgObject.reply("You need to enter a sound to delete!");
+    async runCommand(args, msgObject, client) {
+        const soundName = args;
+        if (!soundName) {
+            msgObject.reply("You need to enter a sound to delete!");
+            return;
+        }
+        mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+        await Sound.deleteOne({ Name: soundName }, (err,res) => {
+            if(err) {
+                msgObject.reply("There was an issue deleteing that sound.")
                 return;
             }
-            const rowCount = yield Sounds.destroy({
-                where: {
-                    Name: soundName,
-                },
-            });
-            if (!rowCount) {
-                msgObject.reply("There is no sound by that name to delete.");
+            if(res) {
+                msgObject.reply(`${soundName} has been deleted.`);
                 return;
             }
-            msgObject.reply(`${soundName} has been deleted.`);
         });
     }
 }
