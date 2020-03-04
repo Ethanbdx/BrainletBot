@@ -5,6 +5,7 @@ A discord bot that has a soundboard and other miscelleanous commands.
 - JavaScript
 - Node.js
 - Discord.js
+- Mongoose.js
 - MongoDB Atlas
 - AWS EC2
 # Current Available Commands
