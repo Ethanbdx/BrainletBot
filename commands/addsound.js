@@ -1,4 +1,7 @@
-const ytdl = require('ytdl-core');
+const ytdl = require("ytdl-core");
+const mongoose = require("mongoose");
+const privateConfig = require("../private");
+const Sound = require("../models/Sound");
 class addsound {
     constructor() {
         this._command = "addsound";
@@ -40,24 +43,23 @@ class addsound {
                     return;
                 }
             }
-            try {
-                const sound = await Sounds.create({
-                    Name: soundName,
-                    Url: soundUrl,
-                    CreatedBy: `${msgObject.author.username}#${msgObject.member.user.discriminator}`
-                });
+            mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+            const sound = new Sound({
+                Name: soundName,
+                Url: soundUrl,
+                CreatedBy: msgObject.author.id
+            }).save( (err, res) => {
+                if(err) {
+                    if(err.code == 11000) {
+                        msgObject.reply("That sound name or link already exists!");
+                        return;
+                    }
+                    msgObject.reply("Something went wrong!!");
+                    return;
+                }
                 msgObject.reply(`${soundName} successfully added!`);
                 return;
-            }
-            catch (e) {
-                console.log(e);
-                if (e.name === 'SequelizeUniqueConstraintError') {
-                    msgObject.reply('That sound already exists!');
-                }
-                else {
-                    msgObject.reply('Something went wrong while adding that sound...' + Error);
-                }
-            }
+            });
         });
     }
 }
