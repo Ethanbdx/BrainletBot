@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const ConfigFile = require("./config");
+const privateConfig = require("./private")
 const bot = new Discord.Client();
 let commands = [];
 loadCommands("./commands");
@@ -48,4 +49,4 @@ function loadCommands(commandsPath) {
         console.log(command);
     });
 }
-bot.login(ConfigFile.config.token);
+bot.login(privateConfig.private.token);
