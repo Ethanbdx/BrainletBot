@@ -13,7 +13,7 @@ bot.on("guildMemberAdd", mem => {
     mem.send("Welcome to the EauxP Discord, in order to gain full access to our server please contact a Moderator or Admin. Thanks!");
 });
 bot.on("guildMemberRemove", mem => {
-    const botChannel = mem.guild.channels.get('510333364339998720');
+    const botChannel = mem.guild.channels.cache.get('510333364339998720');
     if (!botChannel) return;
     if (!((botChannel) => botChannel.type === "text")(botChannel)) return;
     botChannel.send(`${mem} has left the server.`);
