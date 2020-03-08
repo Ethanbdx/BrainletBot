@@ -19,6 +19,7 @@ bot.on("guildMemberRemove", mem => {
     botChannel.send(`${mem} has left the server.`);
 });
 bot.on("message", msg => {
+    if(!msg.guild) return;
     if (msg.author.bot) return;
     if (!msg.content.startsWith(ConfigFile.config.prefix)) return;
     handleCommand(msg);
