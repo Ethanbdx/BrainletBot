@@ -3,14 +3,21 @@ const mongoose = require('mongoose');
 const privateConfig = require('../private');
 const Vibe = require("../models/Vibe");
 class vibecheck {
-    constructor() {
-        this._command = "vibecheck";
-    }
+    constructor() { }
     help() {
-        return "Brainlet will check your vibe.";
-    }
-    isThisCommand(command) {
-        return command == this._command;
+        return {
+            embed: {
+            title: ".vibecheck",
+            color: 5139196,
+            description: "Brainlet will check your vibes to see if you pass or fail.",
+            fields: [
+              {
+                name: "Usage:",
+                value: ".vibecheck"
+              }
+            ]
+          }
+        };
     }
     async runCommand(args, msgObject, client) {
         const canCheck = await this.canVibeCheck(msgObject);

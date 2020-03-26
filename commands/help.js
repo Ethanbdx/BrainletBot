@@ -1,13 +1,27 @@
-const ConfigFile = require("../config");
+const fs = require('fs');
+
 class help {
-    constructor() {
-        this._command = "help";
+    constructor() { 
+        this.commandList = this.getCommands();
     }
     help() {
-        return "This command returns info on any requested command.";
-    }
-    isThisCommand(command) {
-        return command === this._command;
+        return {
+            embed: {
+            title: ".help",
+            color: 5139196,
+            description: "Brainlet will show you how to use his commands.",
+            fields: [
+              {
+                name: "Usage:",
+                value: ".help [command]"
+              },
+              {
+                  name: "[command]",
+                  value: "Any command you'd like to learn how to use."
+              }
+            ]
+          }
+        };
     }
     runCommand(args, msgObject, client) {
         if (!args[0]) {
@@ -16,15 +30,24 @@ class help {
         if (args.length > 1) {
             msgObject.reply("Woah, one at a time there buddy!");
         }
-        if ((ConfigFile.config.commands).includes(args[0])) {
-            var helpMessage = this.getHelpMessage(args[0]);
-            msgObject.reply(helpMessage);
+        if ((this.commandList).includes(args[0])) {
+            let helpMessage = this.getHelpMessage(args[0]);
+            msgObject.channel.send(helpMessage);
         }
     }
     getHelpMessage(commandName) {
         const commandClass = require(`./${commandName}`).default;
         const command = new commandClass();
         return command.help();
+    }
+    getCommands() {
+        const commandList = []
+        const commandsPath = "./commands/"
+        fs.readdirSync(commandsPath).forEach(file => {
+            const commandName = file.replace(".js", "")
+            commandList.push(commandName)
+        });
+        return commandList
     }
 }
 exports.default = help;

@@ -1,12 +1,19 @@
 class gayrate {
-    constructor() {
-        this._command = "gayrate";
-    }
+    constructor() { }
     help() {
-        return "Brainlet will determine how gay you are.";
-    }
-    isThisCommand(command) {
-        return command === this._command;
+        return {
+            embed: {
+            title: ".gayrate",
+            color: 5139196,
+            description: "Brainlet will determine how gay you are.",
+            fields: [
+              {
+                name: "Usage:",
+                value: ".gayrate"
+              }
+            ]
+          }
+        };
     }
     runCommand(args, msgObject, client) {
         const randomNum = Math.floor(Math.random() * 100);

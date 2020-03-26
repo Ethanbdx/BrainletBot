@@ -1,12 +1,19 @@
 class clownrate {
-    constructor() {
-        this._command = "clownrate";
-    }
+    constructor() { }
     help() {
-        return "Brainlet will determine how much of a clown you are.";
-    }
-    isThisCommand(command) {
-        return command === this._command;
+        return {
+            embed: {
+            title: ".clownrate",
+            color: 5139196,
+            description: "Brainlet will determine how much of a clown you are.",
+            fields: [
+              {
+                name: "Usage:",
+                value: ".clownrate"
+              }
+            ]
+          }
+        };
     }
     runCommand(args, msgObject, client) {
         const randomNum = Math.floor(Math.random() * 100);

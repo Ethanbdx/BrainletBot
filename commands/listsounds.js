@@ -3,14 +3,21 @@ const mongoose = require("mongoose");
 const privateConfig = require("../private")
 const Sound = require("../models/Sound")
 class listsounds {
-    constructor() {
-        this._command = "listsounds";
-    }
+    constructor() { }
     help() {
-        return "Brainlet will tell you all he knows how to say.";
-    }
-    isThisCommand(command) {
-        return command === this._command;
+        return {
+            embed: {
+            title: ".listsounds",
+            color: 5139196,
+            description: "A list of all the available sounds.",
+            fields: [
+              {
+                name: "Usage:",
+                value: ".listsounds"
+              }
+            ]
+          }
+        };
     }
     async runCommand(args, msgObject, client) {
         mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
