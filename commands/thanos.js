@@ -1,14 +1,21 @@
 const ytdl = require('ytdl-core-discord');
 
 class thanos {
-    constructor() {
-        this.__command = "thanos"; 
-    }
-    isThisCommand(command){
-        return command === this.__command;
-    }
+    constructor() { }
     help(){
-        return "You should have gone for the head."
+        return {
+            embed: {
+            title: ".thanos",
+            color: 5139196,
+            description: "Brainlet will snap using the infinity gauntlet, making things perfectly balanced....as they should be.",
+            fields: [
+              {
+                name: "Usage:",
+                value: ".thanos"
+              }
+            ]
+          }
+        };
     }
     async runCommand(args, msgObj, client) {
         const member = msgObj.member;

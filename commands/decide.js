@@ -1,12 +1,23 @@
 class decide {
-    constructor() {
-        this._command = "decide";
-    }
+    constructor() { }
     help() {
-        return "Brainlet will decide something for you";
-    }
-    isThisCommand(command) {
-        return command === this._command;
+        return {
+            embed: {
+              title: ".decide",
+              color: 5139196,
+              description: "Brainlet will pick the best option for you.",
+              fields: [
+                {
+                  name: "Usage:",
+                  value: ".decide [option 1] [option 2] ... [option n]"
+                },
+                {
+                  name : "[option]",
+                  value: "Any option Brainlet may choose."
+                }
+              ]
+            }
+          };;
     }
     runCommand(args, msgObject, client) {
         if (args.length === 0) {

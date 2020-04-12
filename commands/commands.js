@@ -1,21 +1,49 @@
-const configFile = require("../config");
+const fs = require('fs');
+
 class commands {
-    constructor() {
-        this._command = "commands";
+    constructor() { 
+        this.commandList = this.getCommands();
     }
     help() {
-        return "Brainlet will tell you all he is capable of.";
-    }
-    isThisCommand(command) {
-        return command === this._command;
+        return {
+            embed: {
+              title: ".commands",
+              color: 5139196,
+              description: "A list of all the available Brainlet commands.",
+              fields: [
+                {
+                  name: "Usage:",
+                  value: ".commands"
+                }
+              ]
+            }
+          };
     }
     runCommand(args, msgObject, client) {
-        var commandList = [];
-        for (let index = 0; index < configFile.config.commands.length; index++) {
-            var command = " " + configFile.config.commands[index];
-            commandList.push(command);
-        }
-        msgObject.channel.send(`Here is all my smol brain is capable of: \n${commandList} \n For more info, use .help [command]`);
+        msgObject.channel.send({
+            embed: {
+              title: "Brainlet Command List",
+              color: 5139196,
+              footer: {
+                text: "For more info on a command use .help [command]"
+              },
+              description: `${this.commandList}`
+            }
+          });
+    }
+    getCommands() {
+        const commandList = []
+        const commandsPath = "./commands/"
+        fs.readdirSync(commandsPath).forEach(file => {
+            const commandName = file.replace(".js", "")
+            if(commandList.length == 0) {
+                commandList.push(commandName);
+            }
+            else {
+                commandList.push(" " + commandName);
+            }
+        });
+        return commandList
     }
 }
 exports.default = commands;

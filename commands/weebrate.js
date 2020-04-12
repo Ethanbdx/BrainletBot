@@ -1,12 +1,19 @@
 class weebrate {
-    constructor() {
-        this._command = "weebrate";
-    }
+    constructor() { }
     help() {
-        return "Brainlet will determine how much of a weeb you are.";
-    }
-    isThisCommand(command) {
-        return command === this._command;
+        return {
+            embed: {
+            title: ".weebrate",
+            color: 5139196,
+            description: "Brainlet will determine how much of a weeb you are.",
+            fields: [
+              {
+                name: "Usage:",
+                value: ".weebrate"
+              }
+            ]
+          }
+        };
     }
     runCommand(args, msgObject, client) {
         const randomNum = Math.floor(Math.random() * 100);

@@ -3,14 +3,25 @@ const Sound = require("../models/Sound");
 const privateConfig = require("../private");
 const ytdl = require("ytdl-core-discord");
 class playsound {
-    constructor() {
-        this._command = "playsound";
-    }
+    constructor() { }
     help() {
-        return "Brainlet does the talking.";
-    }
-    isThisCommand(command) {
-        return command === this._command;
+        return {
+            embed: {
+            title: ".playsound",
+            color: 5139196,
+            description: "Brainlet will play a sound from his sound board.",
+            fields: [
+              {
+                name: "Usage:",
+                value: ".playsound [Name]"
+              },
+              {
+                  name: "[Name]",
+                  value: "An existing sound name."
+              }
+            ]
+          }
+        };
     }
     async runCommand(args, msgObject, client) {
         const soundName = args;

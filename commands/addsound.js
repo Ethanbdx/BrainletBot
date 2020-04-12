@@ -3,14 +3,29 @@ const mongoose = require("mongoose");
 const privateConfig = require("../private");
 const Sound = require("../models/Sound");
 class addsound {
-    constructor() {
-        this._command = "addsound";
-    }
+    constructor() { }
     help() {
-        return "Brainlet will remeber a sound you give him.";
-    }
-    isThisCommand(command) {
-        return command === this._command;
+        return {
+            embed: {
+              title: ".addsound",
+              color: 5139196,
+              description: "Brainlet will add a sound you give him to his soundboard.",
+              fields: [
+                {
+                  name: "Usage:",
+                  value: ".addsound [Name] [YouTube URL]"
+                },
+                {
+                  name : "[Name]",
+                  value: "Case senstive name for the sound."
+                },
+                {
+                  name: "[YouTube URL]",
+                  value: "A valid YouTube URL that is under 1 minute."
+                }
+              ]
+            }
+          };
     }
     runCommand(args, msgObject, client) {
         if (args.length != 2) {
