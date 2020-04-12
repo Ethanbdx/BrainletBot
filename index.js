@@ -3,7 +3,6 @@ const privateConfig = require("./private")
 const fs = require('fs');
 const bot = new Discord.Client();
 const botChannel = '697943684087545872';
-let commands = [];
 let commands = new Map();
 loadCommands("./commands");
 
