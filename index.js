@@ -2,18 +2,20 @@ const Discord = require("discord.js");
 const ConfigFile = require("./config");
 const privateConfig = require("./private")
 const bot = new Discord.Client();
+const botChannel = '697943684087545872';
 let commands = [];
 loadCommands("./commands");
 bot.on("ready", () => {
     console.log("Brainlet is alive.");
 });
-bot.on("guildMemberAdd", mem => {
-    if (mem.guild.id != "410502258170789889")
-        return;
-    mem.send("Welcome to the EauxP Discord, in order to gain full access to our server please contact a Moderator or Admin. Thanks!");
-});
+//No longer needed currently - may need in future.
+// bot.on("guildMemberAdd", mem => {
+//     if (mem.guild.id != "410502258170789889")
+//         return;
+//     mem.send("Welcome to the EauxP Discord, in order to gain full access to our server please contact a Moderator or Admin. Thanks!");
+//});
 bot.on("guildMemberRemove", mem => {
-    const botChannel = mem.guild.channels.cache.get('510333364339998720');
+    const botChannel = mem.guild.channels.cache.get(botChannel);
     if (!botChannel) return;
     if (!((botChannel) => botChannel.type === "text")(botChannel)) return;
     botChannel.send(`${mem} has left the server.`);
@@ -21,6 +23,7 @@ bot.on("guildMemberRemove", mem => {
 bot.on("message", msg => {
     if(!msg.guild) return;
     if (msg.author.bot) return;
+    if(msg.channel.id != botChannel) return;
     if (!msg.content.startsWith(ConfigFile.config.prefix)) return;
     handleCommand(msg);
 });
