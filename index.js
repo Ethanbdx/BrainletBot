@@ -18,7 +18,7 @@ bot.on("ready", () => {
 //});
 
 bot.on("guildMemberRemove", mem => {
-    const botChannel = mem.guild.channels.cache.get(botChannel);
+    const botChannel = mem.guild.channels.cache.get(697943684087545872);
     if (!botChannel) return;
     if (!((botChannel) => botChannel.type === "text")(botChannel)) return;
     botChannel.send(`${mem} has left the server.`);
