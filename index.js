@@ -18,7 +18,7 @@ bot.on("ready", () => {
 //});
 
 bot.on("guildMemberRemove", mem => {
-    const botChannel = mem.guild.channels.cache.get(697943684087545872);
+    if(mem.guild.id != '697943683621716118')
     if (!botChannel) return;
     if (!((botChannel) => botChannel.type === "text")(botChannel)) return;
     botChannel.send(`${mem} has left the server.`);
@@ -27,7 +27,7 @@ bot.on("guildMemberRemove", mem => {
 bot.on("message", msg => {
     if (!msg.guild) return;
     if (msg.author.bot) return;
-    if (msg.channel.id != botChannel) return;
+    if (msg.guild.id == '697943683621716118' && msg.channel.id != botChannel) return;
     if (!msg.content.startsWith(".")) return;
     handleCommand(msg);
 });
