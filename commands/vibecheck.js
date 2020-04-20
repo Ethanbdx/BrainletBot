@@ -27,20 +27,20 @@ class vibecheck {
         const vibe = Math.floor(Math.random() * 100);
         const voiceChannel = msgObject.member.voice.channel;
         const discordUser = msgObject.author.id;
-        if (vibe > 85) {
+        if (vibe >= 85) {
             this.playsound(voiceChannel, client, true);
             const title = 'Brainlet approves of your vibes.';
             const desc = `${msgObject.member.user.username} vibes have been analyzed: ${vibe}% PASS :white_check_mark:`;
             const color = 0x71A324;
             this.generateMessage(client, msgObject, title, desc, color);
         }
-        else if (vibe > 50) {
+        else if (vibe >= 50) {
             const title = 'Brainlet approves of your vibes.';
             const desc = `${msgObject.member.user.username} vibes have been analyzed: ${vibe}%, you have passed the vibe check. :thumbsup:`;
             const color = 0x71A324;
             this.generateMessage(client, msgObject, title, desc, color);
         }
-        else if (vibe > 15) {
+        else if (vibe >= 15) {
             const title = 'Brainlet dissapproves of your vibes.';
             const desc = `${msgObject.member.user.username} vibes have been analyzed: ${vibe}%, you have failed the vibe check. :thumbsdown:`;
             const color = 0xA32432;
@@ -105,7 +105,6 @@ class vibecheck {
         if (vibe) {
             const timeDiff = Math.abs(new Date().valueOf() - vibe.LastCheck.valueOf());
             const hoursDiff = timeDiff / 36e5;
-            console.log(hoursDiff);
             if (hoursDiff < 8) {
                 msgObject.reply(`You still got ${(8 - hoursDiff).toFixed(2)} hour(s) left.`);
                 return false;
