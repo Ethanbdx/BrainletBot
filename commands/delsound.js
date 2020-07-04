@@ -29,16 +29,15 @@ class delsound {
             return;
         }
         mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
-        await Sound.deleteOne({ Name: soundName }, (err,res) => {
-            if(err) {
-                msgObject.reply("There was an issue deleteing that sound.")
-                return;
-            }
-            if(res) {
-                msgObject.reply(`${soundName} has been deleted.`);
-                return;
-            }
-        });
+        const deleteResult = await Sound.deleteOne({ Name: soundName });
+        mongoose.connection.close();
+        let message = "";
+        if(deleteResult.ok == 1) {
+          message = `Sound: \`${soundName}\` has been removed from the database!`;
+        } else {
+          message = `There was an issue deleting the sound \`${soundName}\``
+        }
+        msgObject.reply(message);
     }
 }
 exports.default = delsound;

@@ -43,6 +43,7 @@ class thanos {
                 stream.on('err', err => {
                     console.log("Error playing thanos sound.")
                     console.log(err)
+                    voiceChannel.leave();
                 });
                 stream.on('finish', end => {
                     voiceChannel.leave();

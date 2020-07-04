@@ -21,18 +21,28 @@ class listsounds {
     }
     async runCommand(args, msgObject, client) {
         mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-        const query = Sound.find();
-        query.select('Name');
-        await query.exec((err, sound) => {
-            //Making a comma seperated list of all the results.
-            const soundString = sound.map(sound => sound.Name).sort(() => Math.random() - 0.5).join(', ').slice(0, 2048)
-            const embed = new MessageEmbed()
-                .setTitle('Available Sounds:')
-                .setDescription(`${soundString}`)
-                .setColor(0x2471a3)
-                .setFooter('To add sounds, type \'.addsound [sound name] [youtube url]\'');
-            return msgObject.reply("Here ya go!", { embed });
-        })
+        const sound = await Sound
+        .find()
+        .select('Name')
+        .exec();
+        
+        mongoose.connection.close();
+        if(sound) {
+          //Making a comma seperated list of all the results.
+          const soundString = sound
+          .map(sound => sound.Name)
+          .sort(() => Math
+          .random() - 0.5).join(', ')
+          .slice(0, 2048)
+
+          const embed = new MessageEmbed()
+              .setTitle('Available Sounds:')
+              .setDescription(`${soundString}`)
+              .setColor(0x2471a3)
+              .setFooter('To add sounds, type \'.addsound [sound name] [youtube url]\'');
+          return msgObject.reply("Here ya go!", { embed });
+        }
+        return msgObject.reply("Something is wrong with my database connection...pinging Ethan.");
     }
 }
 exports.default = listsounds;

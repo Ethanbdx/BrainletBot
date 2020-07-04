@@ -2,6 +2,8 @@ const ytdl = require('ytdl-core-discord');
 const mongoose = require('mongoose');
 const privateConfig = require('../private');
 const Vibe = require("../models/Vibe");
+
+
 class vibecheck {
     constructor() { }
     help() {
@@ -20,13 +22,12 @@ class vibecheck {
         };
     }
     async runCommand(args, msgObject, client) {
-        const canCheck = await this.canVibeCheck(msgObject);
-        if (!canCheck) {
-            return;
-        }
+        //const canCheck = await this.canVibeCheck(msgObject);
+        // if (!canCheck) {
+        //     return;
+        // }
         const vibe = Math.floor(Math.random() * 100);
         const voiceChannel = msgObject.member.voice.channel;
-        const discordUser = msgObject.author.id;
         if (vibe >= 85) {
             this.playsound(voiceChannel, client, true);
             const title = 'Brainlet approves of your vibes.';
@@ -56,25 +57,25 @@ class vibecheck {
     };
     playsound(voiceChannel, client, passed) {
         if(voiceChannel && voiceChannel.joinable && client.voice.connections.size == 0) {
-            voiceChannel.join().then(async (connection) => {
-                let sound = "";
+            let sound = "";
                 if(passed){
                     sound = "https://www.youtube.com/watch?v=04hXxI8TArU";
                 }
                 else {
                     sound = "https://www.youtube.com/watch?v=RxcHbiUfKlA";
                 }
+            voiceChannel.join().then(async (connection) => {
                 const dispatcher = connection.play(await ytdl(sound), { type: 'opus' });
                 dispatcher.on('error', err => {
                     console.log(`Error playing vibe check sound, requested on ${Date.now()} by ${msgObject.author.username}`);
                     console.log(err);
+                    voiceChannel.leave();
                 });
                 dispatcher.on('finish', end => {
                     voiceChannel.leave();
                 });
             });
         }
-        return;
     }
     generateMessage(client, msgObject, title, desc, color) {
         msgObject.channel.send({
@@ -98,30 +99,24 @@ class vibecheck {
     }
     async canVibeCheck(msgObject) {
         mongoose.connect(privateConfig.private.mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
-        let vibe;
-        await Vibe.findOne({UserId: msgObject.author.id}, (err, res) => {
-            vibe = res;
-        });
-        if (vibe) {
-            const timeDiff = Math.abs(new Date().valueOf() - vibe.LastCheck.valueOf());
+        let user = await Vibe.findOne({UserId: msgObject.author.id}).exec();
+        let canCheck = true;
+        if (user) {
+            const timeDiff = Math.abs(new Date().valueOf() - user.LastCheck.valueOf());
             const hoursDiff = timeDiff / 36e5;
             if (hoursDiff < 8) {
                 msgObject.reply(`You still got ${(8 - hoursDiff).toFixed(2)} hour(s) left.`);
-                return false;
+                canCheck = false;
             }
             else {
                 await Vibe.updateOne({ UserId: msgObject.author.id }, { LastCheck: new Date() });
-                return true;
             }
         }
         else {
-            const newVibe = Vibe({
-                UserId: msgObject.author.id,
-                LastCheck: new Date()
-            }).save();
-            
-            return true;
+            await Vibe({ UserId: msgObject.author.id, LastCheck: new Date() }).save();
         }
+        mongoose.connection.close();
+        return canCheck;
     };
 }
 exports.default = vibecheck;

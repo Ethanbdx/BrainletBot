@@ -59,23 +59,22 @@ class addsound {
                 }
             }
             mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-            const sound = new Sound({
+            let sound = await Sound.findOne({ Name: soundName, Url: soundUrl}).exec();
+            if(sound) {
+                msgObject.reply("A sound with that name or url already exists!")
+                return;
+            }
+            sound = await new Sound({
                 Name: soundName,
                 Url: soundUrl,
                 CreatedBy: msgObject.author.id
-            }).save( (err, res) => {
-                if(err) {
-                    if(err.code == 11000) {
-                        msgObject.reply("That sound name or link already exists!");
-                        return;
-                    }
-                    msgObject.reply("Something went wrong!!");
-                    return;
-                }
-                msgObject.reply(`${soundName} successfully added!`);
-                return;
-            });
-        });
+            }).save();
+            mongoose.connection.close();
+            if(sound.errors) {
+                msgObject.reply("There was an issue adding the sound the database. :(")
+            }
+            msgObject.reply(`Successfully added \`${soundName}\` to the database!`)
+        })
     }
 }
 exports.default = addsound;

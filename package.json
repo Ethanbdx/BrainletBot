@@ -5,9 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "discord.js": "^12.0.0",
-    "mongoose": "^5.9.3",
+    "mongoose": "^5.9.21",
     "node-opus": "^0.3.3",
-    "ytdl-core-discord": "^1.1.0"
+    "ytdl-core-discord": "^1.2.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
