@@ -39,24 +39,22 @@ class playsound {
             return;
         }
         mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-        const query = Sound.findOne({ Name: soundName });
-        const sound = await query.exec((err, sound) => {
+        const sound = await Sound.findOne({ Name: new RegExp('^'+soundName+'$', "i")}).exec();
+        mongoose.connection.close();
             if (sound) {
                 voiceChannel.join().then(async (connection) => {
-                    const stream = connection.play(await ytdl(sound.Url), { type: 'opus' });
+                    const stream = connection.play(await ytdl(sound.Url), {type: 'opus'});
                     stream.on('error', (end) => {
-                        msgObject.reply(`Something went wrong while playing ${soundName}`);
+                        msgObject.reply(`Something went wrong while playing \`${sound.Name}\``);
                     });
                     stream.on('finish', (end) => {
-
                         connection.disconnect();
                     });
                 });
-                msgObject.reply(`Now playing ${soundName}.`);
+                msgObject.reply(`Now playing \`${sound.Name}\`.`);
                 return;
             }
-            msgObject.reply(`I couldn't find ${soundName} in my database, maybe you should add it or use .listsounds to see all the available sounds.`);
-        })
+            msgObject.reply(`I couldn't find any matching \`${soundName}\` in my database, maybe you should add it or use .listsounds to see all the available sounds.`);
     }
 }
 exports.default = playsound;
