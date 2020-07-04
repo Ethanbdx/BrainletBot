@@ -22,10 +22,10 @@ class vibecheck {
         };
     }
     async runCommand(args, msgObject, client) {
-        //const canCheck = await this.canVibeCheck(msgObject);
-        // if (!canCheck) {
-        //     return;
-        // }
+        const canCheck = await this.canVibeCheck(msgObject);
+        if (!canCheck) {
+            return;
+        }
         const vibe = Math.floor(Math.random() * 100);
         const voiceChannel = msgObject.member.voice.channel;
         if (vibe >= 85) {
