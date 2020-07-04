@@ -46,6 +46,7 @@ class playsound {
                     const stream = connection.play(await ytdl(sound.Url), {type: 'opus'});
                     stream.on('error', (end) => {
                         msgObject.reply(`Something went wrong while playing \`${sound.Name}\``);
+                        connection.disconnect();
                     });
                     stream.on('finish', (end) => {
                         connection.disconnect();

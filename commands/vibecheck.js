@@ -69,10 +69,10 @@ class vibecheck {
                 dispatcher.on('error', err => {
                     console.log(`Error playing vibe check sound, requested on ${Date.now()} by ${msgObject.author.username}`);
                     console.log(err);
-                    voiceChannel.leave();
+                    connection.disconnect();
                 });
                 dispatcher.on('finish', end => {
-                    voiceChannel.leave();
+                    connection.disconnect();
                 });
             });
         }
