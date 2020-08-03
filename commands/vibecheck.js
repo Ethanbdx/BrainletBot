@@ -98,7 +98,7 @@ class vibecheck {
         });
     }
     async canVibeCheck(msgObject) {
-        mongoose.connect(privateConfig.private.mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+        mongoose.connect(privateConfig.mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
         let user = await Vibe.findOne({UserId: msgObject.author.id}).exec();
         let canCheck = true;
         if (user) {

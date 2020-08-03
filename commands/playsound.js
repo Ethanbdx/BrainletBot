@@ -38,7 +38,7 @@ class playsound {
             msgObject.reply("I'm not done yet!");
             return;
         }
-        mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+        mongoose.connect(privateConfig.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
         const sound = await Sound.findOne({ Name: new RegExp('^'+soundName+'$', "i")}).exec();
         mongoose.connection.close();
             if (sound) {

@@ -58,7 +58,7 @@ class addsound {
                     return;
                 }
             }
-            mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+            mongoose.connect(privateConfig.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
             let sound = await Sound.findOne({ Name: soundName, Url: soundUrl}).exec();
             if(sound) {
                 msgObject.reply("A sound with that name or url already exists!")

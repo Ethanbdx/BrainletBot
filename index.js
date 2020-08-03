@@ -55,4 +55,4 @@ function loadCommands(commandsPath) {
         })
     })
 }
-bot.login(privateConfig.private.token);
+bot.login(privateConfig.token);

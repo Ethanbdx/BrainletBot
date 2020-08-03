@@ -28,7 +28,7 @@ class delsound {
             msgObject.reply("You need to enter a sound to delete!");
             return;
         }
-        mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+        mongoose.connect(privateConfig.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
         const deleteResult = await Sound.deleteOne({ Name: soundName });
         mongoose.connection.close();
         let message = "";

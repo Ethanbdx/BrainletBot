@@ -20,7 +20,7 @@ class listsounds {
         };
     }
     async runCommand(args, msgObject, client) {
-        mongoose.connect(privateConfig.private.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+        mongoose.connect(privateConfig.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
         const sound = await Sound
         .find()
         .select('Name')
