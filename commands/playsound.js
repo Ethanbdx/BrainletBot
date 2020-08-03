@@ -42,17 +42,15 @@ class playsound {
         const sound = await Sound.findOne({ Name: new RegExp('^'+soundName+'$', "i")}).exec();
         mongoose.connection.close();
             if (sound) {
-                const connection = await voiceChannel.join()
-                const stream = connection.play(await ytdl(sound.Url), {type: 'opus'});
-                stream.on('start', () => {
-                    console.log(`Now playing ${Sound.Name}.`)
-                })
-                stream.on('finish', (end) => {
-                        connection.disconnect();
-                });
-                stream.on('error', (end) => {
+                voiceChannel.join().then(async (connection) => {
+                    const stream = connection.play(await ytdl(sound.Url), {type: 'opus'});
+                    stream.on('error', (end) => {
                         msgObject.reply(`Something went wrong while playing \`${sound.Name}\``);
                         connection.disconnect();
+                    });
+                    stream.on('finish', (end) => {
+                        connection.disconnect();
+                    });
                 });
                 msgObject.reply(`Now playing \`${sound.Name}\`.`);
                 return;
