@@ -40,7 +40,7 @@ class addsound {
         if (soundUrl.includes('playlist' || 'list')) {
             msgObject.reply("You can't add a playlist!");
         }
-        ytdl.getInfo(soundUrl, async (err, info) => {
+        ytdl.getInfo(soundUrl).then( async (err, info) => {
             try {
                 if (info.length_seconds > 60) {
                     msgObject.reply("You can't add sounds longer than 1 minute!");
@@ -49,14 +49,8 @@ class addsound {
             }
             catch (e) {
                 console.log(e);
-                if (e.name === 'UnhandledPromiseRejectionWarning') {
-                    msgObject.reply("I am unable to read the length of this video >:(");
-                    return;
-                }
-                else {
-                    msgObject.reply("I don't know what...but something went wrong");
-                    return;
-                }
+                msgObject.reply("The link to that video has some type of issue. :redcard:");
+                return;
             }
             mongoose.connect(privateConfig.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
             let sound = await Sound.findOne({ Name: soundName, Url: soundUrl}).exec();
@@ -73,7 +67,7 @@ class addsound {
             if(sound.errors) {
                 msgObject.reply("There was an issue adding the sound the database. :(")
             }
-            msgObject.reply(`Successfully added \`${soundName}\` to the database!`)
+            msgObject.reply(`Successfully added \`${soundName}\` to the database! :greencard:`)
         })
     }
 }

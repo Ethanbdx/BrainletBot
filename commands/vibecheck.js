@@ -1,4 +1,4 @@
-const ytdl = require('ytdl-core-discord');
+const ytdl = require('ytdl-core');
 const mongoose = require('mongoose');
 const privateConfig = require('../private');
 const Vibe = require("../models/Vibe");
@@ -22,10 +22,10 @@ class vibecheck {
         };
     }
     async runCommand(args, msgObject, client) {
-        const canCheck = await this.canVibeCheck(msgObject);
-        if (!canCheck) {
-            return;
-        }
+        // const canCheck = await this.canVibeCheck(msgObject);
+        // if (!canCheck) {
+        //     return;
+        // }
         const vibe = Math.floor(Math.random() * 100);
         const voiceChannel = msgObject.member.voice.channel;
         if (vibe >= 85) {
@@ -65,7 +65,7 @@ class vibecheck {
                     sound = "https://www.youtube.com/watch?v=RxcHbiUfKlA";
                 }
             voiceChannel.join().then(async (connection) => {
-                const dispatcher = connection.play(await ytdl(sound), { type: 'opus' });
+                const dispatcher = connection.play(ytdl(sound));
                 dispatcher.on('error', err => {
                     console.log(`Error playing vibe check sound, requested on ${Date.now()} by ${msgObject.author.username}`);
                     console.log(err);

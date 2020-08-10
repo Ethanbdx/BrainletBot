@@ -1,4 +1,4 @@
-const ytdl = require('ytdl-core-discord');
+const ytdl = require('ytdl-core');
 
 class thanos {
     constructor() { }
@@ -39,7 +39,7 @@ class thanos {
         if(voiceChannel && voiceChannel.joinable && client.voice.connections.size == 0) 
         {
             voiceChannel.join().then( async(connection) => {
-                const stream = connection.play(await ytdl("https://www.youtube.com/watch?v=vJqA2fyMJQY"), {type: 'opus'});
+                const stream = connection.play(ytdl("https://www.youtube.com/watch?v=vJqA2fyMJQY"), { volume: 50 });
                 stream.on('err', err => {
                     console.log("Error playing thanos sound.")
                     console.log(err)

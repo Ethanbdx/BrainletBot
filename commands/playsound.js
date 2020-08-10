@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Sound = require("../models/Sound");
 const privateConfig = require("../private");
-const ytdl = require("ytdl-core-discord");
+const ytdl = require("ytdl-core");
 class playsound {
     constructor() { }
     help() {
@@ -43,19 +43,28 @@ class playsound {
         mongoose.connection.close();
             if (sound) {
                 voiceChannel.join().then(async (connection) => {
-                    const stream = connection.play(await ytdl(sound.Url), {type: 'opus'});
-                    stream.on('error', (end) => {
+                    try {
+                        const voiceStream = connection.play(ytdl(sound.Url));
+                        voiceStream.on('start', () => {
+                        msgObject.reply(`Now playing \`${sound.Name}\`.`);
+                        });
+                        voiceStream.on('error', () => {
+                            msgObject.reply(`Something went wrong while playing \`${sound.Name}\``);
+                            connection.disconnect();
+                        });
+                        voiceStream.on('finish', (end) => {
+                            connection.disconnect();
+                        });
+                    } catch {
                         msgObject.reply(`Something went wrong while playing \`${sound.Name}\``);
                         connection.disconnect();
-                    });
-                    stream.on('finish', (end) => {
-                        connection.disconnect();
-                    });
+                    }
+                    
                 });
-                msgObject.reply(`Now playing \`${sound.Name}\`.`);
-                return;
+            } 
+            else {
+                msgObject.reply(`I couldn't find sound named \`${soundName}\` in my database, maybe you should add it or use .listsounds to see all the available sounds.`);
             }
-            msgObject.reply(`I couldn't find any matching \`${soundName}\` in my database, maybe you should add it or use .listsounds to see all the available sounds.`);
     }
 }
 exports.default = playsound;
