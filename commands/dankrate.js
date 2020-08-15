@@ -3,16 +3,16 @@ class dankrate {
     help() {
         return {
             embed: {
-            title: ".dankrate",
-            color: 5139196,
-            description: "Brainlet will determine how dank you are.",
-            fields: [
-              {
-                name: "Usage:",
-                value: ".dankrate"
-              }
-            ]
-          }
+                title: ".dankrate",
+                color: 5139196,
+                description: "Brainlet will determine how dank you are.",
+                fields: [
+                    {
+                        name: "Usage:",
+                        value: ".dankrate"
+                    }
+                ]
+            }
         };
     }
     runCommand(args, msgObject, client) {

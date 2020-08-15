@@ -3,16 +3,16 @@ class gayrate {
     help() {
         return {
             embed: {
-            title: ".gayrate",
-            color: 5139196,
-            description: "Brainlet will determine how gay you are.",
-            fields: [
-              {
-                name: "Usage:",
-                value: ".gayrate"
-              }
-            ]
-          }
+                title: ".gayrate",
+                color: 5139196,
+                description: "Brainlet will determine how gay you are.",
+                fields: [
+                    {
+                        name: "Usage:",
+                        value: ".gayrate"
+                    }
+                ]
+            }
         };
     }
     runCommand(args, msgObject, client) {

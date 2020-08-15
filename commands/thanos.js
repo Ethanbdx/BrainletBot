@@ -38,18 +38,17 @@ class thanos {
 
         if(voiceChannel && voiceChannel.joinable && client.voice.connections.size == 0) 
         {
-            voiceChannel.join().then( async(connection) => {
-                const stream = connection.play(ytdl("https://www.youtube.com/watch?v=vJqA2fyMJQY"), { volume: 50 });
-                stream.on('err', err => {
-                    console.log("Error playing thanos sound.")
-                    console.log(err)
-                    voiceChannel.leave();
-                });
-                stream.on('finish', end => {
-                    voiceChannel.leave();
-                    selectedConnections.forEach(user => user.voice.kick("Thanos snap"));
-                })
+            const connection = await voiceChannel.join()
+            const stream = connection.play(ytdl("https://www.youtube.com/watch?v=vJqA2fyMJQY"), { volume: 50 });
+            stream.on('err', err => {
+                console.log("Error playing thanos sound.")
+                console.log(err)
+                voiceChannel.leave();
             });
+            stream.on('finish', end => {
+                voiceChannel.leave();
+                selectedConnections.forEach(user => user.voice.kick("Thanos snap"));
+            })
 
         }
         else 

@@ -1,26 +1,26 @@
 const fs = require('fs');
 
 class help {
-    constructor() { 
+    constructor() {
         this.commandList = this.getCommands();
     }
     help() {
         return {
             embed: {
-            title: ".help",
-            color: 5139196,
-            description: "Brainlet will show you how to use his commands.",
-            fields: [
-              {
-                name: "Usage:",
-                value: ".help [command]"
-              },
-              {
-                  name: "[command]",
-                  value: "Any command you'd like to learn how to use."
-              }
-            ]
-          }
+                title: ".help",
+                color: 5139196,
+                description: "Brainlet will show you how to use his commands.",
+                fields: [
+                    {
+                        name: "Usage:",
+                        value: ".help [command]"
+                    },
+                    {
+                        name: "[command]",
+                        value: "Any command you'd like to learn how to use."
+                    }
+                ]
+            }
         };
     }
     runCommand(args, msgObject, client) {

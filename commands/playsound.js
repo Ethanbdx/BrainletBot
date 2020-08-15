@@ -42,25 +42,23 @@ class playsound {
         const sound = await Sound.findOne({ Name: new RegExp('^'+soundName+'$', "i")}).exec();
         mongoose.connection.close();
             if (sound) {
-                voiceChannel.join().then(async (connection) => {
-                    try {
-                        const voiceStream = connection.play(ytdl(sound.Url));
-                        voiceStream.on('start', () => {
-                        msgObject.reply(`Now playing \`${sound.Name}\`.`);
-                        });
-                        voiceStream.on('error', () => {
-                            msgObject.reply(`Something went wrong while playing \`${sound.Name}\``);
-                            connection.disconnect();
-                        });
-                        voiceStream.on('finish', (end) => {
-                            connection.disconnect();
-                        });
-                    } catch {
+                const connection = await voiceChannel.join()
+                try {
+                    const voiceStream = connection.play(ytdl(sound.Url));
+                    voiceStream.on('start', () => {
+                    msgObject.reply(`Now playing \`${sound.Name}\`.`);
+                    });
+                    voiceStream.on('error', () => {
                         msgObject.reply(`Something went wrong while playing \`${sound.Name}\``);
                         connection.disconnect();
-                    }
-                    
-                });
+                    });
+                    voiceStream.on('finish', (end) => {
+                        connection.disconnect();
+                    });
+                } catch {
+                    msgObject.reply(`Something went wrong while playing \`${sound.Name}\``);
+                     connection.disconnect();
+                }
             } 
             else {
                 msgObject.reply(`I couldn't find sound named \`${soundName}\` in my database, maybe you should add it or use .listsounds to see all the available sounds.`);

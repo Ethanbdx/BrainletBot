@@ -22,10 +22,10 @@ class vibecheck {
         };
     }
     async runCommand(args, msgObject, client) {
-        // const canCheck = await this.canVibeCheck(msgObject);
-        // if (!canCheck) {
-        //     return;
-        // }
+        const canCheck = await this.canVibeCheck(msgObject);
+        if (!canCheck) {
+            return;
+        }
         const vibe = Math.floor(Math.random() * 100);
         const voiceChannel = msgObject.member.voice.channel;
         if (vibe >= 85) {
@@ -55,7 +55,7 @@ class vibecheck {
             this.generateMessage(client, msgObject, title, desc, color);
         }
     };
-    playsound(voiceChannel, client, passed) {
+    async playsound(voiceChannel, client, passed) {
         if(voiceChannel && voiceChannel.joinable && client.voice.connections.size == 0) {
             let sound = "";
                 if(passed){
@@ -64,16 +64,15 @@ class vibecheck {
                 else {
                     sound = "https://www.youtube.com/watch?v=RxcHbiUfKlA";
                 }
-            voiceChannel.join().then(async (connection) => {
-                const dispatcher = connection.play(ytdl(sound));
-                dispatcher.on('error', err => {
-                    console.log(`Error playing vibe check sound, requested on ${Date.now()} by ${msgObject.author.username}`);
-                    console.log(err);
-                    connection.disconnect();
-                });
-                dispatcher.on('finish', end => {
-                    connection.disconnect();
-                });
+            const connection = await voiceChannel.join();
+            const dispatcher = connection.play(ytdl(sound));
+            dispatcher.on('error', err => {
+                console.log(`Error playing vibe check sound, requested on ${Date.now()} by ${msgObject.author.username}`);
+                console.log(err);
+                connection.disconnect();
+            });
+            dispatcher.on('finish', end => {
+                connection.disconnect();
             });
         }
     }

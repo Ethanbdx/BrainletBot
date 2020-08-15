@@ -3,16 +3,16 @@ class clownrate {
     help() {
         return {
             embed: {
-            title: ".clownrate",
-            color: 5139196,
-            description: "Brainlet will determine how much of a clown you are.",
-            fields: [
-              {
-                name: "Usage:",
-                value: ".clownrate"
-              }
-            ]
-          }
+                title: ".clownrate",
+                color: 5139196,
+                description: "Brainlet will determine how much of a clown you are.",
+                fields: [
+                    {
+                        name: "Usage:",
+                        value: ".clownrate"
+                    }
+                ]
+            }
         };
     }
     runCommand(args, msgObject, client) {
