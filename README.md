@@ -19,7 +19,7 @@ A discord bot that has a soundboard and other miscelleanous commands.
   <li>.addsound [name] [youtube url] - Adds a given sound to the bot's soundboard.</li>
   <li>.delsound [name] - Deletes a sound from the bot's soundboard.</li>
   <li>.playsound [name] - Plays the desired sound in the user's current voice channel.</li>
-  <li>.vibecheck - Will give a random percentage of a user's "vibe", can only be done once in 8 hours, will play sound if above 85% or below 15%.</li>
+  <li>.vibecheck - Will give a random percentage of a user's "vibe", can only be done once every 8 hours, will play sound if above 85% or below 15%.</li>
 </ul>
 
 # Brainlet in Action
