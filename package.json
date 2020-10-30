@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@discordjs/opus": "^0.3.2",
-    "discord.js": "^12.0.0",
-    "mongoose": "^5.9.27",
-    "ytdl-core": "^3.2.0"
+    "@discordjs/opus": "^0.3.3",
+    "discord.js": "^12.4.1",
+    "mongoose": "^5.10.11",
+    "ytdl-core": "^3.4.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
