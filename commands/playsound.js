@@ -44,7 +44,7 @@ class playsound {
             if (sound) {
                 const connection = await voiceChannel.join()
                 try {
-                    const voiceStream = connection.play(ytdl(sound.Url));
+                    const voiceStream = connection.play(ytdl(sound.Url, {quality: 'highestaudio'}));
                     voiceStream.on('start', () => {
                     msgObject.reply(`Now playing \`${sound.Name}\`.`);
                     });
