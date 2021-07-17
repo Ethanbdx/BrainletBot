@@ -1,7 +1,5 @@
 const ytdl = require('ytdl-core');
-const mongoose = require('mongoose');
 const privateConfig = require('../private');
-const Vibe = require("../models/Vibe");
 
 
 class vibecheck {
@@ -55,6 +53,7 @@ class vibecheck {
             this.generateMessage(client, msgObject, title, desc, color);
         }
     };
+
     async playsound(voiceChannel, client, passed) {
         if(voiceChannel && voiceChannel.joinable && client.voice.connections.size == 0) {
             let sound = "";
@@ -76,6 +75,7 @@ class vibecheck {
             });
         }
     }
+
     generateMessage(client, msgObject, title, desc, color) {
         msgObject.channel.send({
             embed: {
@@ -96,6 +96,7 @@ class vibecheck {
             }
         });
     }
+
     async canVibeCheck(msgObject) {
         mongoose.connect(privateConfig.mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
         let user = await Vibe.findOne({UserId: msgObject.author.id}).exec();
@@ -104,7 +105,7 @@ class vibecheck {
             const timeDiff = Math.abs(new Date().valueOf() - user.LastCheck.valueOf());
             const hoursDiff = timeDiff / 36e5;
             if (hoursDiff < 8) {
-                msgObject.reply(`You still got ${(8 - hoursDiff).toFixed(2)} hour(s) left.`);
+                msgObject.reply(`You still have ${(8 - hoursDiff).toFixed(2)} hour(s) until you can check your V I B E S.`);
                 canCheck = false;
             }
             else {
