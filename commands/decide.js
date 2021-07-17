@@ -9,7 +9,7 @@ class decide {
         fields: [
           {
             name: "Usage:",
-            value: ".decide [option 1] [option 2] ... [option n]"
+            value: ".decide [option1] [option2] ... [optionN]"
           },
           {
             name: "[option]",

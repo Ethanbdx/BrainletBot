@@ -6,8 +6,9 @@
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
     "discord.js": "^12.4.1",
-    "mongoose": "^5.10.11",
-    "ytdl-core": "^3.4.2"
+    "sqlite": "^4.0.23",
+    "sqlite3": "^5.0.2",
+    "ytdl-core": "^4.8.3"
   },
   "scripts": {
     "start": "node index.js"

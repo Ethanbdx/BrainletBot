@@ -1,5 +1,7 @@
 class weebrate {
+    
     constructor() { }
+
     help() {
         return {
             embed: {
@@ -15,6 +17,7 @@ class weebrate {
             }
         };
     }
+
     runCommand(args, msgObject, client) {
         const randomNum = Math.floor(Math.random() * 100);
         msgObject.channel.send({
@@ -37,4 +40,5 @@ class weebrate {
         });
     }
 }
+
 exports.default = weebrate;

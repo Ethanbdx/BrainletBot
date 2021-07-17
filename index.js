@@ -1,21 +1,17 @@
 const Discord = require("discord.js");
 const privateConfig = require("./private")
 const fs = require('fs');
+const {createDatabase} = require('./util/database')
 const bot = new Discord.Client();
 const botChannel = '697943684087545872';
 let commands = new Map();
+
 loadCommands("./commands");
+ensureDirectoriesCreated();
 
 bot.on("ready", () => {
     console.log("Brainlet is alive.");
 });
-
-//No longer needed currently - may need in future.
-// bot.on("guildMemberAdd", mem => {
-//     if (mem.guild.id != "410502258170789889")
-//         return;
-//     mem.send("Welcome to the EauxP Discord, in order to gain full access to our server please contact a Moderator or Admin. Thanks!");
-//});
 
 bot.on("guildMemberRemove", mem => {
     if(mem.guild.id != '697943683621716118')
@@ -55,4 +51,21 @@ function loadCommands(commandsPath) {
         })
     })
 }
+
+function ensureDirectoriesCreated() {
+    if(!fs.existsSync('./sounds')) {
+        console.log('Adding sound directory...')
+        fs.mkdirSync('./sounds')
+        console.log('Sounds directory added successfully!')
+    }
+
+    if(!fs.existsSync('./brainlet.db')) {
+        console.log('Creating brainlet database...')
+        createDatabase();
+        console.log('Database created sucessfully!')
+        
+    }
+
+}
+
 bot.login(privateConfig.token);
