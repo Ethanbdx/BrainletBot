@@ -24,7 +24,7 @@ bot.on("guildMemberRemove", mem => {
 bot.on("message", msg => {
     if (!msg.guild) return;
     if (msg.author.bot) return;
-    if (msg.guild.id == config.guildId && msg.channel.id != botChannel) return;
+    if (msg.guild.id == config.guildId && msg.channel.id != config.botChannelId) return;
     if (!msg.content.startsWith(".")) return;
     handleCommand(msg);
 });
@@ -44,10 +44,11 @@ async function handleCommand(msg) {
 function loadCommands(commandsPath) {
     fs.readdir(commandsPath, (err, files) => {
         files.forEach(async (file) => {
-
-            const commandClass = await import(`${commandsPath}/${file}`);
-            commands.set(commandName, commandClass);
-            console.log(commandInstance);
+            const {default: commandClass} = await import(`${commandsPath}/${file}`);
+            const commandInstance = new commandClass();
+            const commandName = file.replace('.js', '');
+            commands.set(commandName, commandInstance);
+            console.log(commandInstance)
         })
     })
 }

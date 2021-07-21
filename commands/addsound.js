@@ -1,5 +1,5 @@
 import ytdl from 'ytdl-core'
-import {saveSoundToDisk} from '../util/soundDiskManager.js'
+import {saveSoundToDisk} from '../util/soundManager.js'
 import { addSoundToDB } from '../util/database.js'
 
 export default class addsound {

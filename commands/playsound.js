@@ -1,4 +1,4 @@
-import { getSoundAudioStream } from '../util/soundDiskManager.js'
+import { getSoundAudioStream } from '../util/soundManager.js'
 import { getSound } from '../util/database.js'
 
 export default class playsound {
@@ -25,7 +25,7 @@ export default class playsound {
     async runCommand(args, msgObject, client) {
         const soundName = args;
         const voiceChannel = msgObject.member.voice.channel;
-        if (!soundName) {
+        if (!soundName || soundName.length === 0) {
             msgObject.reply("You need to enter a sound to play, using .playsound [soundname]");
             return;
         }
