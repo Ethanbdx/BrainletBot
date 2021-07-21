@@ -1,8 +1,8 @@
-const ytdl = require('ytdl-core');
-const privateConfig = require('../private');
+import ytdl from 'ytdl-core'
+import config from '../config.js'
 
 
-class vibecheck {
+export default class vibecheck {
     constructor() { }
     help() {
         return {
@@ -119,4 +119,3 @@ class vibecheck {
         return canCheck;
     };
 }
-exports.default = vibecheck;

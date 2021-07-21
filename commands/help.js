@@ -1,6 +1,6 @@
-const fs = require('fs');
+import fs from 'fs'
 
-class help {
+export default class help {
     constructor() {
         this.commandList = this.getCommands();
     }

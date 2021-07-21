@@ -1,4 +1,4 @@
-class clownrate {
+export default class clownrate {
     constructor() { }
     help() {
         return {
@@ -59,4 +59,3 @@ class clownrate {
         }
     }
 }
-exports.default = clownrate;

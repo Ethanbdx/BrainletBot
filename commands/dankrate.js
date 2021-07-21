@@ -1,4 +1,4 @@
-class dankrate {
+export default class dankrate {
     constructor() { }
     help() {
         return {
@@ -37,4 +37,3 @@ class dankrate {
         });
     }
 }
-exports.default = dankrate;

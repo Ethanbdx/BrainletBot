@@ -1,9 +1,7 @@
-const ytdl = require("ytdl-core");
-const fs = require('fs');
-const { getSoundAudioStream } = require('../util/soundDiskManager');
-const { getSound } = require('../util/database');
+import { getSoundAudioStream } from '../util/soundDiskManager.js'
+import { getSound } from '../util/database.js'
 
-class playsound {
+export default class playsound {
     constructor() { }
     help() {
         return {
@@ -66,4 +64,3 @@ class playsound {
         }
     }
 }
-exports.default = playsound;

@@ -1,7 +1,6 @@
-const sqlite3 = require('sqlite3')
-const { open } = require('sqlite')
-
-const config = require('../private.json')
+import sqlite3 from 'sqlite3';
+import { open } from 'sqlite';
+import config from '../config.js'
 
 const dbPath = config.dbPath
 
@@ -12,14 +11,14 @@ const openConnection = () => {
     })
 }
 
-exports.getSound = async (soundName) => {
+const getSound = async (soundName) => {
     const db = await openConnection()
     const result = await db.get('SELECT * from Sounds WHERE soundName = ?', soundName).finally(() => db.close())
 
     return result
 }
 
-exports.addSoundToDB = async (soundName, youtubeId) => {
+const addSoundToDB = async (soundName, youtubeId) => {
     const db = await openConnection()
     const parameters = { ':soundName': soundName, ':youtubeId': youtubeId }
 
@@ -35,7 +34,7 @@ exports.addSoundToDB = async (soundName, youtubeId) => {
 
 }
 
-exports.createDatabase = async () => {
+const createDatabase = async () => {
     const db = await open({
         filename: dbPath,
         driver: sqlite3.Database
@@ -46,3 +45,5 @@ exports.createDatabase = async () => {
 
     db.close();
 }
+
+export {addSoundToDB, createDatabase, getSound}
