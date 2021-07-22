@@ -8,12 +8,13 @@
     "discord.js": "^12.4.1",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
-    "ytdl-core": "^4.8.3"
+    "ytdl-core": "^4.9.0"
   },
   "scripts": {
     "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
+  "type": "module",
   "devDependencies": {}
 }

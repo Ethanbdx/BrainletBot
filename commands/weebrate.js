@@ -1,4 +1,4 @@
-class weebrate {
+export default class weebrate {
     
     constructor() { }
 
@@ -40,5 +40,3 @@ class weebrate {
         });
     }
 }
-
-exports.default = weebrate;
