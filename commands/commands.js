@@ -1,6 +1,6 @@
-const fs = require('fs');
+import fs from 'fs'
 
-class commands {
+export default class commands {
   constructor() {
     this.commandList = this.getCommands();
   }
@@ -46,4 +46,3 @@ class commands {
     return commandList
   }
 }
-exports.default = commands;

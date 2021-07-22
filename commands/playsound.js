@@ -1,9 +1,7 @@
-const ytdl = require("ytdl-core");
-const fs = require('fs');
-const { getSoundAudioStream } = require('../util/soundDiskManager');
-const { getSound } = require('../util/database');
+import { getSoundAudioStream } from '../util/soundManager.js'
+import { getSound } from '../util/soundDatabase.js'
 
-class playsound {
+export default class playsound {
     constructor() { }
     help() {
         return {
@@ -27,7 +25,7 @@ class playsound {
     async runCommand(args, msgObject, client) {
         const soundName = args;
         const voiceChannel = msgObject.member.voice.channel;
-        if (!soundName) {
+        if (!soundName || soundName.length === 0) {
             msgObject.reply("You need to enter a sound to play, using .playsound [soundname]");
             return;
         }
@@ -45,7 +43,7 @@ class playsound {
         if (sound) {
             const connection = await voiceChannel.join()
             try {
-                const voiceStream = connection.play(getSoundAudioStream(sound.SoundName));
+                const voiceStream = connection.play(getSoundAudioStream(soundName));
                 voiceStream.on('start', () => {
                     msgObject.reply(`Now playing \`${sound.SoundName}\`.`);
                 });
@@ -56,7 +54,8 @@ class playsound {
                 voiceStream.on('finish', (end) => {
                     connection.disconnect();
                 });
-            } catch {
+            } catch(err) {
+                console.log(err)
                 msgObject.reply(`Something went wrong while playing \`${sound.SoundName}\``);
                 connection.disconnect();
             }
@@ -66,4 +65,3 @@ class playsound {
         }
     }
 }
-exports.default = playsound;

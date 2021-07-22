@@ -1,6 +1,6 @@
-const fs = require('fs');
+import fs from 'fs'
 
-class help {
+export default class help {
     constructor() {
         this.commandList = this.getCommands();
     }
@@ -23,7 +23,7 @@ class help {
             }
         };
     }
-    runCommand(args, msgObject, client) {
+    async runCommand(args, msgObject, client) {
         if (!args[0]) {
             msgObject.reply('Include a command you want info on, for example .help help');
         }
@@ -31,12 +31,12 @@ class help {
             msgObject.reply("Woah, one at a time there buddy!");
         }
         if ((this.commandList).includes(args[0])) {
-            let helpMessage = this.getHelpMessage(args[0]);
+            let helpMessage = await this.getHelpMessage(args[0]);
             msgObject.channel.send(helpMessage);
         }
     }
-    getHelpMessage(commandName) {
-        const commandClass = require(`./${commandName}`).default;
+    async getHelpMessage(commandName) {
+        const {default: commandClass} = await import(`./${commandName}.js`);
         const command = new commandClass();
         return command.help();
     }
@@ -50,4 +50,3 @@ class help {
         return commandList
     }
 }
-exports.default = help;

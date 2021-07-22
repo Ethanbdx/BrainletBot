@@ -1,8 +1,8 @@
-const ytdl = require("ytdl-core");
-const { saveSoundToDisk } = require('../util/soundDiskManager');
-const { addSoundToDB } = require('../util/database');
+import ytdl from 'ytdl-core'
+import {saveSoundToDisk} from '../util/soundManager.js'
+import { addSoundToDB } from '../util/soundDatabase.js'
 
-class addsound {
+export default class addsound {
     constructor() { }
 
     help() {
@@ -68,4 +68,3 @@ class addsound {
         msgObject.reply(`Successfully added \`${soundName}\` to the database! :greencard:`)
     }
 }
-exports.default = addsound;

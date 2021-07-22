@@ -1,9 +1,10 @@
-const Discord = require("discord.js");
-const privateConfig = require("./private")
-const fs = require('fs');
-const {createDatabase} = require('./util/database')
+import Discord from 'discord.js';
+import fs from 'fs';
+import {createDatabase} from './util/database.js';
+import config from './config.js';
+
 const bot = new Discord.Client();
-const botChannel = '697943684087545872';
+const botChannel = config.botChannel;
 let commands = new Map();
 
 loadCommands("./commands");
@@ -14,7 +15,7 @@ bot.on("ready", () => {
 });
 
 bot.on("guildMemberRemove", mem => {
-    if(mem.guild.id != '697943683621716118')
+    if(mem.guild.id != config.guildId)
     if (!botChannel) return;
     if (!((botChannel) => botChannel.type === "text")(botChannel)) return;
     botChannel.send(`${mem} has left the server.`);
@@ -23,7 +24,7 @@ bot.on("guildMemberRemove", mem => {
 bot.on("message", msg => {
     if (!msg.guild) return;
     if (msg.author.bot) return;
-    if (msg.guild.id == '697943683621716118' && msg.channel.id != botChannel) return;
+    if (msg.guild.id == config.guildId && msg.channel.id != config.botChannelId) return;
     if (!msg.content.startsWith(".")) return;
     handleCommand(msg);
 });
@@ -42,12 +43,12 @@ async function handleCommand(msg) {
 
 function loadCommands(commandsPath) {
     fs.readdir(commandsPath, (err, files) => {
-        files.forEach(file => {
-            const commandName = file.replace(".js", "")
-            const commandClass = require(`${commandsPath}/${commandName}`).default;
+        files.forEach(async (file) => {
+            const {default: commandClass} = await import(`${commandsPath}/${file}`);
             const commandInstance = new commandClass();
+            const commandName = file.replace('.js', '');
             commands.set(commandName, commandInstance);
-            console.log(commandInstance);
+            console.log(commandInstance)
         })
     })
 }
@@ -68,4 +69,4 @@ function ensureDirectoriesCreated() {
 
 }
 
-bot.login(privateConfig.token);
+bot.login(config.token);

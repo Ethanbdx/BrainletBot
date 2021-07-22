@@ -1,4 +1,4 @@
-class decide {
+export default class decide {
   constructor() { }
   help() {
     return {
@@ -41,4 +41,3 @@ class decide {
     });
   }
 }
-exports.default = decide;
