@@ -40,7 +40,11 @@ export default class addsound {
             return;
         }
 
-        const info = await ytdl.getInfo(soundUrl)
+        const info = await ytdl.getInfo(soundUrl).catch(err => {
+            msgObject.reply(`I can't get that video...it may be restricted.`)
+            return
+        })
+        
 
         if (info.videoDetails.lengthSeconds > 60) {
             msgObject.reply("You can't add sounds longer than 1 minute!");
