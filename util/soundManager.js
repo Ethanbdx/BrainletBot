@@ -12,12 +12,12 @@ const saveSoundToDisk = (soundName, audioStream) => {
 
 }
 
-const removeSoundFromDisk = (soundName) => {
-    fs.unlink(`./sounds/${soundName}.mp3`)
+const deleteSoundFromDisk = async (soundName) => {
+    await fs.unlinkSync(`./sounds/${soundName}.mp3`)
 }
 
 const getSoundAudioStream = (soundName) => {
     return fs.createReadStream(`./sounds/${soundName}.mp3`);
 }
 
-export { saveSoundToDisk, removeSoundFromDisk, getSoundAudioStream }
+export { saveSoundToDisk, deleteSoundFromDisk, getSoundAudioStream }

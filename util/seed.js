@@ -1,4 +1,4 @@
-import { addSoundToDB } from "./database.js";
+import { addSoundToDB } from "./soundDatabase.js";
 import { saveSoundToDisk} from './soundManager.js'
 import ytdl from "ytdl-core";
 

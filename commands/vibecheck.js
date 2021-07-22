@@ -1,6 +1,5 @@
-import ytdl from 'ytdl-core'
-import config from '../config.js'
-
+import { getSoundAudioStream } from "../util/soundManager.js";
+import vibeDatabase from '../util/vibeDatabase.js'
 
 export default class vibecheck {
     constructor() { }
@@ -56,17 +55,16 @@ export default class vibecheck {
 
     async playsound(voiceChannel, client, passed) {
         if(voiceChannel && voiceChannel.joinable && client.voice.connections.size == 0) {
-            let sound = "";
+            let soundName = "";
                 if(passed){
-                    sound = "https://www.youtube.com/watch?v=04hXxI8TArU";
+                    soundName = "vibePassed";
                 }
                 else {
-                    sound = "https://www.youtube.com/watch?v=RxcHbiUfKlA";
+                    soundName = "vibeFailed";
                 }
             const connection = await voiceChannel.join();
-            const dispatcher = connection.play(ytdl(sound));
+            const dispatcher = connection.play(getSoundAudioStream(soundName));
             dispatcher.on('error', err => {
-                console.log(`Error playing vibe check sound, requested on ${Date.now()} by ${msgObject.author.username}`);
                 console.log(err);
                 connection.disconnect();
             });
@@ -98,24 +96,23 @@ export default class vibecheck {
     }
 
     async canVibeCheck(msgObject) {
-        mongoose.connect(privateConfig.mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
-        let user = await Vibe.findOne({UserId: msgObject.author.id}).exec();
+        const userId = msgObject.author.id;
+        const user = await vibeDatabase.getUser(userId)
         let canCheck = true;
         if (user) {
-            const timeDiff = Math.abs(new Date().valueOf() - user.LastCheck.valueOf());
+            const timeDiff = Math.abs(new Date().valueOf() - user.LastChecked.valueOf());
             const hoursDiff = timeDiff / 36e5;
             if (hoursDiff < 8) {
                 msgObject.reply(`You still have ${(8 - hoursDiff).toFixed(2)} hour(s) until you can check your V I B E S.`);
                 canCheck = false;
             }
             else {
-                await Vibe.updateOne({ UserId: msgObject.author.id }, { LastCheck: new Date() });
+                vibeDatabase.updateLastChecked(userId, new Date())
             }
         }
         else {
-            await Vibe({ UserId: msgObject.author.id, LastCheck: new Date() }).save();
+            vibeDatabase.addUser(userId)
         }
-        mongoose.connection.close();
         return canCheck;
     };
 }

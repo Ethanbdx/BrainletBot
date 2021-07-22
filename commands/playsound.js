@@ -1,5 +1,5 @@
 import { getSoundAudioStream } from '../util/soundManager.js'
-import { getSound } from '../util/database.js'
+import { getSound } from '../util/soundDatabase.js'
 
 export default class playsound {
     constructor() { }
@@ -43,7 +43,7 @@ export default class playsound {
         if (sound) {
             const connection = await voiceChannel.join()
             try {
-                const voiceStream = connection.play(getSoundAudioStream(sound.SoundName));
+                const voiceStream = connection.play(getSoundAudioStream(soundName));
                 voiceStream.on('start', () => {
                     msgObject.reply(`Now playing \`${sound.SoundName}\`.`);
                 });
@@ -54,7 +54,8 @@ export default class playsound {
                 voiceStream.on('finish', (end) => {
                     connection.disconnect();
                 });
-            } catch {
+            } catch(err) {
+                console.log(err)
                 msgObject.reply(`Something went wrong while playing \`${sound.SoundName}\``);
                 connection.disconnect();
             }

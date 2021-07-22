@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const privateConfig = require("../private");
-const Sound = require("../models/Sound");
-class delsound {
+import { deleteSoundFromDB } from "../util/soundDatabase.js";
+import { deleteSoundFromDisk} from '../util/soundManager.js'
+
+export default class delsound {
   constructor() { }
   help() {
     return {
@@ -23,21 +23,24 @@ class delsound {
     };
   }
   async runCommand(args, msgObject, client) {
-    const soundName = args;
+    const soundName = args[0];
     if (!soundName) {
       msgObject.reply("You need to enter a sound to delete!");
       return;
     }
-    mongoose.connect(privateConfig.mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
-    const deleteResult = await Sound.deleteOne({ Name: soundName });
-    mongoose.connection.close();
-    let message = "";
-    if (deleteResult.ok == 1) {
+
+    let message = ""
+    
+    try {
+      await deleteSoundFromDB(soundName);
+      await deleteSoundFromDisk(soundName)
       message = `Sound: \`${soundName}\` has been removed from the database!`;
-    } else {
+    } 
+    catch {
       message = `There was an issue deleting the sound \`${soundName}\``
     }
-    msgObject.reply(message);
+    finally {
+      msgObject.reply(message);
+    }
   }
 }
-exports.default = delsound;

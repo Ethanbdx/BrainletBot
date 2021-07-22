@@ -1,6 +1,6 @@
-const ytdl = require('ytdl-core');
+import { getSoundAudioStream } from '../util/soundManager.js'
 
-class thanos {
+export default class thanos {
     constructor() { }
     help(){
         return {
@@ -34,14 +34,15 @@ class thanos {
         const voiceConnections = voiceChannel.members;
         const voiceCount = voiceConnections.array().length;
         const selectedConnections = voiceConnections.random(Math.ceil(voiceCount / 2));
-        console.log(selectedConnections);
+        console.log(selectedConnections.map((guildMember) => {
+            return guildMember.user.username;
+        }));
 
         if(voiceChannel && voiceChannel.joinable && client.voice.connections.size == 0) 
         {
             const connection = await voiceChannel.join()
-            const stream = connection.play(ytdl("https://www.youtube.com/watch?v=vJqA2fyMJQY"), { volume: 50 });
+            const stream = connection.play(getSoundAudioStream('thanosSnap'), { volume: 50 });
             stream.on('err', err => {
-                console.log("Error playing thanos sound.")
                 console.log(err)
                 voiceChannel.leave();
             });
@@ -66,5 +67,3 @@ class thanos {
         }
     }
 }
-
-exports.default = thanos;
