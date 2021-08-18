@@ -1,6 +1,6 @@
 import ytdl from 'ytdl-core'
 import {saveSoundToDisk} from '../util/soundManager.js'
-import { addSoundToDB } from '../util/soundDatabase.js'
+import { addSoundToDB, getSound } from '../util/soundDatabase.js'
 
 export default class addsound {
     constructor() { }
@@ -51,17 +51,10 @@ export default class addsound {
             return;
         }
 
-        try {
-            await addSoundToDB(soundName, info.videoDetails.videoId)
-        }
-        catch(err) {
-            if(err === 'Sound already exists!') {
-                msgObject.reply('A sound with that name or URL already exists!')
-            }
-            else {
-                msgObject.reply("Hmm...something went wrong adding that sound to the database.")
-            }
+        const existingSound = await getSound(soundName);
 
+        if(existingSound) {
+            msgObject.reply("A sound with that name already exists!");
             return;
         }
             
@@ -69,6 +62,8 @@ export default class addsound {
 
         saveSoundToDisk(soundName, audioStream);
 
-        msgObject.reply(`Successfully added \`${soundName}\` to the database! :greencard:`)
+        await addSoundToDB(soundName, info.videoDetails.videoId)
+
+        msgObject.reply(`Successfully added \`${soundName}\` to the database! <:greencard:698659721678159972>`)
     }
 }

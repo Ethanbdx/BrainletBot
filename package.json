@@ -8,7 +8,7 @@
     "discord.js": "^12.4.1",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
-    "ytdl-core": "^4.9.0"
+    "ytdl-core": "^4.9.1"
   },
   "scripts": {
     "start": "node index.js"
