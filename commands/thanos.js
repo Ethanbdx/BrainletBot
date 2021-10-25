@@ -41,7 +41,7 @@ export default class thanos {
         if(voiceChannel && voiceChannel.joinable && client.voice.connections.size == 0) 
         {
             const connection = await voiceChannel.join()
-            const stream = connection.play(getSoundAudioStream('thanosSnap'), { volume: 50 });
+            const stream = connection.play(getSoundAudioStream('thanossnap'), { volume: 50 });
             stream.on('err', err => {
                 console.log(err)
                 voiceChannel.leave();

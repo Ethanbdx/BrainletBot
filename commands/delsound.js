@@ -23,7 +23,7 @@ export default class delsound {
     };
   }
   async runCommand(args, msgObject, client) {
-    const soundName = args[0];
+    const soundName = args[0].toLowerCase();
     if (!soundName) {
       msgObject.reply("You need to enter a sound to delete!");
       return;

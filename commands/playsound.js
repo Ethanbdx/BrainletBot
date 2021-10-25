@@ -23,7 +23,7 @@ export default class playsound {
         };
     }
     async runCommand(args, msgObject, client) {
-        const soundName = args;
+        const soundName = args.toLowerCase();
         const voiceChannel = msgObject.member.voice.channel;
         if (!soundName || soundName.length === 0) {
             msgObject.reply("You need to enter a sound to play, using .playsound [soundname]");

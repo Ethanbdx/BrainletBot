@@ -57,10 +57,10 @@ export default class vibecheck {
         if(voiceChannel && voiceChannel.joinable && client.voice.connections.size == 0) {
             let soundName = "";
                 if(passed){
-                    soundName = "vibePassed";
+                    soundName = "vibepassed";
                 }
                 else {
-                    soundName = "vibeFailed";
+                    soundName = "vibefailed";
                 }
             const connection = await voiceChannel.join();
             const dispatcher = connection.play(getSoundAudioStream(soundName));

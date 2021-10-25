@@ -34,7 +34,7 @@ export default class addsound {
             msgObject.reply("You need to include the same of sound and url, like so .addsound [name] [url]");
             return;
         }
-        const soundName = args[0], soundUrl = args[1];
+        const soundName = args[0].toLowerCase(), soundUrl = args[1];
         if (!ytdl.validateURL(soundUrl)) {
             msgObject.reply("That's an invalid YouTube Url! :dizzy_face:");
             return;
