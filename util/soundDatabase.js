@@ -2,7 +2,7 @@ import {openConnection} from './database.js'
 
 const getAllSounds = async () => {
     const db = await openConnection()
-    const result = await db.all('SELECT SoundName from Sounds WHERE ShowInList').finally(() => db.close())
+    const result = await db.all('SELECT SoundName from Sounds WHERE ShowInList ORDER BY SoundName').finally(() => db.close())
 
     return result
 }

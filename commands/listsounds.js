@@ -26,8 +26,7 @@ export default class listsounds {
       //Making a comma seperated list of all the results.
       const soundString = sounds
         .map(sound => sound.SoundName)
-        .sort(() => Math
-          .random() - 0.5).join(', ')
+        .join(', ')
         .slice(0, 2048)
 
       const embed = new MessageEmbed()
