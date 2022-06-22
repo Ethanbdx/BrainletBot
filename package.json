@@ -7,7 +7,7 @@
     "@discordjs/opus": "^0.3.3",
     "discord.js": "^12.4.1",
     "sqlite": "^4.0.23",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.0.3",
     "ytdl-core": "^4.9.1"
   },
   "scripts": {
